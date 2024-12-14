@@ -1,0 +1,6 @@
+@SpMedicalGroup_HostAddress = http://localhost:5054
+
+GET {{SpMedicalGroup_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

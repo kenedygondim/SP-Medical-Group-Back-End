@@ -1,0 +1,156 @@
+[
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EmpresaController",
+    "Method": "Cadastrar",
+    "RelativePath": "api/Empresa/cadastrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novaEmpresa",
+        "Type": "SpMedicalGroup.Domains.Empresa",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EmpresaController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Empresa/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Especialidade/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "SpMedicalGroup.ViewModels.LoginViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "ListarInformacoesBasicasMedico",
+    "RelativePath": "api/Medico/ListarInformacoesBasicasMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "especialidade",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "nomeMedico",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "numCrm",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Medico/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Paciente/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "ListarTodosC",
+    "RelativePath": "api/Paciente/ListarTodosC",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.RoleController",
+    "Method": "Cadastrar",
+    "RelativePath": "api/Role/cadastrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novoRole",
+        "Type": "SpMedicalGroup.Domains.Role",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.RoleController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Role/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Usuario/ListarTodos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
+    "Method": "PaginaEspecialidades",
+    "RelativePath": "paginaEspecialidades",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
