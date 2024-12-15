@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
+    "Method": "Adicionar",
+    "RelativePath": "api/Disponibilidade/adicionar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novaDisponibilidade",
+        "Type": "SpMedicalGroup.Dto.CriarDisponibilidadeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.EmpresaController",
     "Method": "Cadastrar",
     "RelativePath": "api/Empresa/cadastrar",
