@@ -18,8 +18,17 @@ namespace SpMedicalGroup.Controllers
     {
         private readonly MedicoModel medicoModel = new();
 
+
+        [HttpGet("Acessar")]
+        [Authorize(Roles = "2")]
+        public IActionResult Acessar()
+        {
+            return Ok();
+        }
+
+
         [HttpGet("ListarInformacoesBasicasMedico")]
-public IActionResult ListarInformacoesBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
+        public IActionResult ListarInformacoesBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
         {
             List<MedicoInformacoesCardDto> lista = medicoModel.ListarInformacoesBasicasMedico(especialidade, nomeMedico, numCrm);
 
