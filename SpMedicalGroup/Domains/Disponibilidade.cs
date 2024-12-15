@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using SpMedicalGroup.Domains;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Principal;
+using System.Text.Json.Serialization;
 
 namespace SpMedicalGroup.Domains
 {
@@ -23,7 +25,9 @@ namespace SpMedicalGroup.Domains
         public required string HoraInicio { get; set; }
         public required string HoraFim { get; set; }
 
-        public Medico Medico { get; set; }
+        [JsonIgnore]
+        [NotMapped]
+        public virtual Medico? Medico { get; set; }
     }
 }
 
