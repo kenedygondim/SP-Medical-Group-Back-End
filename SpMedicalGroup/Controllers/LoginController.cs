@@ -11,6 +11,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
+using SpMedicalGroup.Contexts;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -20,9 +22,11 @@ namespace SpMedicalGroup.Controllers
     public class LoginController : ControllerBase
     {
         private readonly UsuarioModel usuarioModel = new();
+        private readonly SpMedicalGroupContext ctx = new SpMedicalGroupContext();
+
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel login)
+        public async Task<IActionResult> Login(LoginViewModel login)
         {
             try
             {
@@ -37,13 +41,31 @@ namespace SpMedicalGroup.Controllers
 
                 Log.Information("Usuário encontrado");
 
+
+
+
+                // Busque a role pelo RoleId
+                var roleId = await ctx.Roles
+                    .Where(r => r.RoleId == usuarioBuscado.RoleId)
+                    .Select(r => r.RoleId)
+                    .FirstOrDefaultAsync();
+
+                if (roleId.Equals(null))
+                {
+                    throw new Exception("Role não encontrada para o usuário.");
+                }
+
                 var minhasClaims = new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.UsuarioId.ToString()),
-                    new Claim(ClaimTypes.Role, usuarioBuscado.UsuarioId.ToString()),
-                    new Claim("role", usuarioBuscado.UsuarioId.ToString())
+                new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.UsuarioId.ToString()),
+                new Claim(ClaimTypes.Role, roleId.ToString()), 
+                new Claim("role", roleId.ToString())          
                 };
+
+
+
+
 
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("SpMedicalGroup-chave-autenticacao"));
 
