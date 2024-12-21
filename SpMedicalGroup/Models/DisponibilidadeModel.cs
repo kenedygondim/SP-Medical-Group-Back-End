@@ -10,9 +10,22 @@ namespace SpMedicalGroup.Models
 
         public async Task adicionarDisponibilidade(CriarDisponibilidadeDto novaDisponibilidade)
         {
+            var cpfMedico =
+                (from tb_usuarios in ctx.Usuarios
+                 join tb_medicos in ctx.Medicos
+                 on tb_usuarios.UsuarioId equals tb_medicos.UsuarioId
+                 where tb_usuarios.Email == novaDisponibilidade.emailMedico
+                 select tb_medicos.Cpf).FirstOrDefault();
+
+
+            if (cpfMedico == null)
+            {
+                throw new Exception("Médico não encontrado");
+            }
+
             Disponibilidade disponibilidade = new()
             {
-                CpfMedico = novaDisponibilidade.CpfMedico,
+                CpfMedico = cpfMedico,
                 DataDisp = novaDisponibilidade.DataDisp,
                 HoraInicio = novaDisponibilidade.HoraInicio,
                 HoraFim = novaDisponibilidade.HoraFim

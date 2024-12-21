@@ -11,9 +11,25 @@ namespace SpMedicalGroup.Models
 {
     public class EspecialidadeModel
     {
-        SpMedicalGroupContext ctx = new SpMedicalGroupContext();
+        private readonly SpMedicalGroupContext ctx = new();
 
-        public List<PaginaEspecialidadesDto> ListarInfoPaginaEspecialidades()
+        public async Task<List<NomeEspecialidadeDto>> obterEspecialidadesMedico (string cpf)
+        {
+            var sql = @"
+                SELECT ESP.nome FROM
+                tb_especialidades ESP
+                JOIN tb_medico_especialidades MEDESP ON MEDESP.especialidade_id = ESP.especialidade_id
+                JOIN tb_medicos MED ON MED.cpf = MEDESP.cpf_medico
+                WHERE MEDESP.cpf_medico = '" + cpf + "';";
+
+
+            return await ctx.Set<NomeEspecialidadeDto>()
+                .FromSqlRaw(sql)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<PaginaEspecialidadesDto>> ListarInfoPaginaEspecialidades()
         {
             var sql = @"
                 SELECT
@@ -26,16 +42,16 @@ namespace SpMedicalGroup.Models
                 INNER JOIN tb_medicos MED ON MED.cpf = MEDESP.cpf_medico
                 GROUP BY ESP.nome, ESP.descricao";
 
-            return ctx.Set<PaginaEspecialidadesDto>()
+            return await ctx.Set<PaginaEspecialidadesDto>()
                 .FromSqlRaw(sql)
-                .ToList();
+                .ToListAsync();
         }
 
 
 
-        public List<Especialidade> ListarTodas()
+        public async Task<List<Especialidade>> ListarTodas()
         {
-            return ctx.Especialidades.ToList();
+            return await ctx.Especialidades.ToListAsync();
         }
     }
 }

@@ -11,10 +11,37 @@ namespace SpMedicalGroup.Models
     public class ConsultaModel
     {
 
-        SpMedicalGroupContext ctx = new SpMedicalGroupContext();
-        
+        private static readonly SpMedicalGroupContext ctx = new SpMedicalGroupContext();
 
 
+        public async Task<List<ConsultaDetalhadaDto>> ListarTodosConsultasMedico(string emailMedico)
+        {
+            var cpfMedico = await MedicoModel.buscaCpfMedicoPorEmail(emailMedico);
+
+            var sql = @"
+                SELECT 
+                    PAC.nome_completo AS NomePaciente,
+                    PAC.cpf AS CpfPaciente,
+                    MED.nome_completo AS NomeMedico,
+                    ESP.nome AS Especialidade,
+                    DIS.data_disp AS DataConsulta,
+                    DIS.hora_inicio AS HoraInicio,
+                    DIS.hora_fim AS HoraFim,
+                    MEDESP.valor_procedimento AS Preco,
+                    CON.situacao AS Situacao
+                FROM tb_pacientes PAC
+                JOIN tb_consultas CON ON CON.cpf_paciente = PAC.cpf
+                JOIN tb_disponibilidades DIS ON DIS.disponibilidade_id = CON.disponibilidade_id
+                JOIN tb_medicos MED ON MED.cpf = DIS.cpf_medico
+                JOIN tb_especialidades ESP ON ESP.especialidade_id = CON.especialidade_id
+                JOIN tb_medico_especialidades MEDESP ON MEDESP.cpf_medico = MED.cpf AND MEDESP.especialidade_id = ESP.especialidade_id
+                WHERE MED.cpf = {0}
+            ";
+
+            return ctx.Set<ConsultaDetalhadaDto>()
+            .FromSqlRaw(sql, cpfMedico)
+            .ToList();
+        }
 
         /* 
          public void Atualizar(byte id, Consulta consultaAtt)
