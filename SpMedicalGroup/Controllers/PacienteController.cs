@@ -18,11 +18,18 @@ namespace SpMedicalGroup.Controllers
     {
         private readonly PacienteModel pacienteModel = new();
 
-        [HttpGet("ListarTodosC")]
-            public IActionResult ListarTodosC()
+        [HttpGet("Acessar")]
+        [Authorize(Roles = "1")]
+        public IActionResult Acessar()
         {
-            List<ConsultaDetalhadaDto> lista = pacienteModel.ListarTodosC();
+            return Ok();
+        }
 
+
+        [HttpGet("ListarPacientesMedico")]
+        public async Task<IActionResult> ListarPacientesMedico([FromQuery] string emailUsuario)
+        {
+            List<NomeECpfDoPacienteDto> lista =  await pacienteModel.ListarPacientesMedico(emailUsuario);
             return Ok(lista);
         }
 
@@ -30,8 +37,14 @@ namespace SpMedicalGroup.Controllers
         public IActionResult ListarTodos()
         {
             List<Paciente> lista = pacienteModel.ListarTodos();
-
             return Ok(lista);
+        }
+
+        [HttpPost("Cadastrar")]
+        public async Task<IActionResult> Cadastrar(CadastroPacienteDto novoPaciente)
+        {
+        
+            return Ok(await pacienteModel.CadastrarPaciente(novoPaciente));
         }
     }
 }

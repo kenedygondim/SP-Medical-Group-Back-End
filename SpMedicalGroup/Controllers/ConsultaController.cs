@@ -19,6 +19,23 @@ namespace SpMedicalGroup.Controllers
     {
         private readonly ConsultaModel consultaModel = new();
 
+        [HttpGet("ListarTodosConsultasMedico")]
+        public IActionResult ListarTodosConsultasMedico(string email)
+        {
+            try
+            {
+                Task<List<ConsultaDetalhadaDto>> lista = consultaModel.ListarTodosConsultasMedico(email);
+                return Ok(lista.Result);
+            }
+            catch (Exception error)
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Não foi possível processar a requisição",
+                    error
+                });
+            }
+        }
 
 
 

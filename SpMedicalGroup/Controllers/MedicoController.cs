@@ -19,6 +19,16 @@ namespace SpMedicalGroup.Controllers
         private readonly MedicoModel medicoModel = new();
 
 
+        [HttpGet("InformacoesMedicoEspecifico")]
+        public async Task<IActionResult> InformacoesMedicoEspecifico([FromQuery] string cpfMedico)
+        {
+            InformacoesMedicoPopUp medico = await medicoModel.InformacoesMedicoEspecifico(cpfMedico);
+
+            return Ok(medico);
+        }
+
+
+
         [HttpGet("Acessar")]
         [Authorize(Roles = "2")]
         public IActionResult Acessar()

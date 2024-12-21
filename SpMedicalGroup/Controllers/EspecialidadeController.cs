@@ -18,19 +18,28 @@ namespace SpMedicalGroup.Controllers
     {
         private readonly EspecialidadeModel especialidadeModel = new();
 
-        [HttpGet("/paginaEspecialidades")]
-        public IActionResult PaginaEspecialidades()
+        [HttpGet("obterEspecialidadesMedico")]
+        public async Task<IActionResult> obterEspecialidadesMedico([FromQuery] string cpf)
         {
-            List<PaginaEspecialidadesDto> lista = especialidadeModel.ListarInfoPaginaEspecialidades();
+            List<NomeEspecialidadeDto> lista = await especialidadeModel.obterEspecialidadesMedico(cpf);
+
+            return Ok(lista);
+        }
+
+
+        [HttpGet("/paginaEspecialidades")]
+        public async Task<IActionResult> PaginaEspecialidades()
+        {
+            List<PaginaEspecialidadesDto> lista = await especialidadeModel.ListarInfoPaginaEspecialidades();
 
             return Ok(lista);
         }
 
 
         [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodos()
         {
-            List<Especialidade> especialidades = especialidadeModel.ListarTodas();
+            List<Especialidade> especialidades = await especialidadeModel.ListarTodas();
 
             return Ok(especialidades);
         }
