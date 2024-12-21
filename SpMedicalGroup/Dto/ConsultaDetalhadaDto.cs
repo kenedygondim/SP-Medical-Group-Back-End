@@ -10,6 +10,7 @@
         public string HoraInicio { get; set; } = string.Empty;
         public string HoraFim { get; set; } = string.Empty;
         public decimal Preco { get; set; }
+        public string Situacao { get; set; } = string.Empty;
     }
 
 }
