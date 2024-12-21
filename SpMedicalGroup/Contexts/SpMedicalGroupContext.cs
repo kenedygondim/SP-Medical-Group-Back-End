@@ -48,6 +48,11 @@ namespace SpMedicalGroup.Contexts
             modelBuilder.Entity<MedicoInformacoesCardDto>().HasNoKey();
             modelBuilder.Entity<PaginaEspecialidadesDto>().HasNoKey();
             modelBuilder.Entity<CriarDisponibilidadeDto>().HasNoKey();
+            modelBuilder.Entity<EnvioEmailUsuario>().HasNoKey();
+            modelBuilder.Entity<NomeECpfDoPacienteDto>().HasNoKey();
+            modelBuilder.Entity<CadastroPacienteDto>().HasNoKey();
+            modelBuilder.Entity<InformacoesMedicoPopUp>().HasNoKey();
+            modelBuilder.Entity<NomeEspecialidadeDto>().HasNoKey();
 
 
             modelBuilder.Entity<Role>(entity =>
