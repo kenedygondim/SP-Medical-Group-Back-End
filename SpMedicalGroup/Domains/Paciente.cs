@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using System.Text.Json.Serialization;
 
 namespace SpMedicalGroup.Domains
 {
@@ -12,8 +13,11 @@ namespace SpMedicalGroup.Domains
         public int? FotoPerfilId { get; set; }
         public required int UsuarioId { get; set; }
 
+        [JsonIgnore]
         public virtual Endereco Endereco { get; set; }
+        [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
+        [JsonIgnore]
         public virtual FotoPerfil FotoPerfil { get; set; }
 
     }
