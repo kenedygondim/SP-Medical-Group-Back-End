@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "ListarTodosConsultasMedico",
+    "RelativePath": "api/Consulta/ListarTodosConsultasMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
     "Method": "Adicionar",
     "RelativePath": "api/Disponibilidade/adicionar",
@@ -52,6 +68,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
+    "Method": "obterEspecialidadesMedico",
+    "RelativePath": "api/Especialidade/obterEspecialidadesMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/Login",
@@ -63,6 +95,32 @@
         "Name": "login",
         "Type": "SpMedicalGroup.ViewModels.LoginViewModel",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "Acessar",
+    "RelativePath": "api/Medico/Acessar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "InformacoesMedicoEspecifico",
+    "RelativePath": "api/Medico/InformacoesMedicoEspecifico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cpfMedico",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -105,8 +163,8 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
-    "Method": "ListarTodos",
-    "RelativePath": "api/Paciente/ListarTodos",
+    "Method": "Acessar",
+    "RelativePath": "api/Paciente/Acessar",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -115,8 +173,40 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
-    "Method": "ListarTodosC",
-    "RelativePath": "api/Paciente/ListarTodosC",
+    "Method": "Cadastrar",
+    "RelativePath": "api/Paciente/Cadastrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novoPaciente",
+        "Type": "SpMedicalGroup.Dto.CadastroPacienteDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "ListarPacientesMedico",
+    "RelativePath": "api/Paciente/ListarPacientesMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailUsuario",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "ListarTodos",
+    "RelativePath": "api/Paciente/ListarTodos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
