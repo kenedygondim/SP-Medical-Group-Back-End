@@ -20,5 +20,12 @@ namespace SpMedicalGroup.Controllers
             return StatusCode(201);
         }
 
+        [HttpGet("listarDisponibilidadesMedicoPorData")]
+        public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
+        {
+            var disponibilidades = await disponibilidadeModel.ListarDisponibilidadesMedicoPorData(cpf, data);
+
+            return Ok(disponibilidades);
+        }
     }
 }

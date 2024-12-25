@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Domains;
 using SpMedicalGroup.Dto;
@@ -20,24 +21,26 @@ namespace SpMedicalGroup.Controllers
         private readonly ConsultaModel consultaModel = new();
 
         [HttpGet("ListarTodosConsultasMedico")]
-        public IActionResult ListarTodosConsultasMedico(string email)
+        public async Task<IActionResult> ListarTodosConsultasMedico(string email)
         {
-            try
-            {
-                Task<List<ConsultaDetalhadaDto>> lista = consultaModel.ListarTodosConsultasMedico(email);
-                return Ok(lista.Result);
-            }
-            catch (Exception error)
-            {
-                return BadRequest(new
-                {
-                    mensagem = "Não foi possível processar a requisição",
-                    error
-                });
-            }
+                List<ConsultaDetalhadaDto> result = await consultaModel.ListarTodosConsultasMedico(email);
+                return StatusCode(200, result);
         }
 
+        [HttpGet("ConfirmarConsultaDetalhes")]
+        public async Task<IActionResult> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
+        {
+                ConfirmarConsultaDetalhesDto result = await consultaModel.ConfirmarConsultaDetalhes(cpf, nomeEspecialidade);
+                return StatusCode(200, result);
+        }
 
+        [HttpPost("Agendar")]
+        public async Task<IActionResult> Cadastrar(Consulta novaConsulta)
+        {
+
+            Consulta consultaCriada = await consultaModel.Cadastrar(novaConsulta);
+            return StatusCode(201, consultaCriada);
+        }
 
         /*[Authorize(Roles = "3")]
         [HttpPatch("atualizar/{id}")]
@@ -49,15 +52,7 @@ namespace SpMedicalGroup.Controllers
 
         }
 
-        [Authorize(Roles = "1, 3")]
-        [HttpPost("cadastrar")]
-        public IActionResult Cadastrar(Consulta novaConsulta)
-        {
-            
-            consultaModel.Cadastrar(novaConsulta);
-
-            return StatusCode(201);
-        }
+        
 
         [Authorize(Roles = "3")]
         [HttpPost("cancelar/{id}")]
