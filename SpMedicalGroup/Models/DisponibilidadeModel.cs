@@ -1,4 +1,5 @@
-﻿using SpMedicalGroup.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Domains;
 using SpMedicalGroup.Dto;
 
@@ -8,7 +9,7 @@ namespace SpMedicalGroup.Models
     {
         private readonly SpMedicalGroupContext ctx = new();
 
-        public async Task adicionarDisponibilidade(CriarDisponibilidadeDto novaDisponibilidade)
+        public async Task<Disponibilidade> adicionarDisponibilidade(CriarDisponibilidadeDto novaDisponibilidade)
         {
             var cpfMedico =
                 (from tb_usuarios in ctx.Usuarios
@@ -19,9 +20,8 @@ namespace SpMedicalGroup.Models
 
 
             if (cpfMedico == null)
-            {
                 throw new Exception("Médico não encontrado");
-            }
+
 
             Disponibilidade disponibilidade = new()
             {
@@ -33,8 +33,15 @@ namespace SpMedicalGroup.Models
 
             await ctx.Disponibilidades.AddAsync(disponibilidade);
             await ctx.SaveChangesAsync();
+
+            return disponibilidade;
         }
 
-
+        public async Task<List<Disponibilidade>> ListarDisponibilidadesMedicoPorData(string cpf, string data)
+        {
+            return await ctx.Disponibilidades
+                .Where(d => d.CpfMedico == cpf && d.DataDisp == data)
+                .ToListAsync();
+        }
     }
 }

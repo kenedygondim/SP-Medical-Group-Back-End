@@ -38,9 +38,37 @@ namespace SpMedicalGroup.Models
                 WHERE MED.cpf = {0}
             ";
 
-            return ctx.Set<ConsultaDetalhadaDto>()
+            return await ctx.Set<ConsultaDetalhadaDto>()
             .FromSqlRaw(sql, cpfMedico)
-            .ToList();
+            .ToListAsync();
+        }
+
+        public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
+        {
+            var sql = @"
+                SELECT 
+	                MEDESP.valor_procedimento AS valorConsulta,
+	                EMP.nome_fantasia AS nomeEmpresa,
+	                ENDE.municipio,
+	                ENDE.bairro,
+	                ENDE.logradouro,
+	                ENDE.numero,
+	                ENDE.complemento
+                FROM tb_medico_especialidades MEDESP
+                JOIN tb_especialidades ESP ON ESP.especialidade_id = MEDESP.especialidade_id
+                JOIN tb_medicos MED ON MED.cpf = MEDESP.cpf_medico
+                JOIN tb_empresas EMP ON EMP.cnpj = MED.cnpj_empresa
+                JOIN tb_enderecos ENDE ON ENDE.endereco_id = EMP.endereco_id
+                WHERE MED.cpf = '" + cpf + "' AND ESP.nome = '" + nomeEspecialidade + "'";
+
+
+            return await ctx.Set<ConfirmarConsultaDetalhesDto>().FromSqlRaw(sql).FirstOrDefaultAsync();
+        }
+
+        public async Task<Consulta> Cadastrar(Consulta novaConsulta)
+        {
+            ctx.Consulta.Add(novaConsulta);
+            ctx.SaveChanges();
         }
 
         /* 
@@ -61,11 +89,7 @@ namespace SpMedicalGroup.Models
                  }
          }
 
-         public void Cadastrar(Consulta novaConsulta)
-         {
-             ctx.Consulta.Add(novaConsulta);          
-             ctx.SaveChanges();
-         }
+
 
          public void CancelarConsulta(byte id)
          {
