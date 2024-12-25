@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "ConfirmarConsultaDetalhes",
+    "RelativePath": "api/Consulta/ConfirmarConsultaDetalhes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "nomeEspecialidade",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
     "Method": "ListarTodosConsultasMedico",
     "RelativePath": "api/Consulta/ListarTodosConsultasMedico",
     "HttpMethod": "GET",
@@ -27,6 +48,27 @@
         "Name": "novaDisponibilidade",
         "Type": "SpMedicalGroup.Dto.CriarDisponibilidadeDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
+    "Method": "ListarDisponibilidadesMedicoPorData",
+    "RelativePath": "api/Disponibilidade/listarDisponibilidadesMedicoPorData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "data",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
