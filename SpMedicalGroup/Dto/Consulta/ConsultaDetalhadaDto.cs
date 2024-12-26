@@ -1,4 +1,4 @@
-﻿namespace SpMedicalGroup.Dto
+﻿namespace SpMedicalGroup.Dto.Consulta
 {
     public class ConsultaDetalhadaDto
     {

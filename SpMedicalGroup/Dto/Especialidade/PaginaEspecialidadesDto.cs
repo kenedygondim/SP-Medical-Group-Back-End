@@ -1,4 +1,4 @@
-﻿namespace SpMedicalGroup.Dto
+﻿namespace SpMedicalGroup.Dto.Especialidade
 {
     public class PaginaEspecialidadesDto
     {

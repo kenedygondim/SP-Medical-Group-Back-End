@@ -1,6 +1,4 @@
-﻿using SpMedicalGroup.Domains;
-
-namespace SpMedicalGroup.Dto
+﻿namespace SpMedicalGroup.Dto.Paciente
 {
     public class CadastroPacienteDto
     {
