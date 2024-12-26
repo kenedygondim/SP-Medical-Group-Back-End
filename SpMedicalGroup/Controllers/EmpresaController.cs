@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -15,24 +10,36 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class EmpresaController : ControllerBase
     {
-        private readonly EmpresaModel empresaModel = new();
+        private readonly EmpresaService empresaService = new();
 
         [Authorize(Roles = "1, 2, 3")]
         [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodas()
         {
-            List<Empresa> lista = empresaModel.ListarTodos();
-
-            return Ok(lista);
+            try
+            {
+                List<Empresa> empresas = await empresaService.ListarTodas();
+                return StatusCode(200, empresas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(Roles = "3")]
-        [HttpPost("cadastrar")]
-        public IActionResult Cadastrar(Empresa novaEmpresa)
+        [HttpPost("Cadastrar")]
+        public async Task<IActionResult> Cadastrar(Empresa novaEmpresa)
         {
-            empresaModel.Cadastrar(novaEmpresa);
-
-            return StatusCode(201);
+            try
+            {
+                var empresaCadastrada = await empresaService.Cadastrar(novaEmpresa);
+                return StatusCode(201, empresaCadastrada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Não foi possível cadastrar empresa. Tente novamente!", ex });
+            }
         }
     }
 }

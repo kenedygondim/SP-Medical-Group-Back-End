@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -15,15 +10,21 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly UsuarioModel usuarioModel = new();
+        private readonly UsuarioService usuarioService = new();
 
         [Authorize(Roles = "1, 2, 3")]
         [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodos()
         {
-            List<Usuario> lista = usuarioModel.ListarTodos();
-
-            return Ok(lista);
+            try
+            {
+                List<Usuario> todosUsuarios = await usuarioService.ListarTodos();
+                return StatusCode(200, todosUsuarios);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

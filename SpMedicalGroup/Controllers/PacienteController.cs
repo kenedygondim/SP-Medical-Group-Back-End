@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Dto.Paciente;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -16,35 +11,48 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class PacienteController : ControllerBase
     {
-        private readonly PacienteModel pacienteModel = new();
+        private readonly PacienteService pacienteService = new();
 
         [HttpGet("Acessar")]
         [Authorize(Roles = "1")]
         public IActionResult Acessar()
         {
-            return Ok();
+            try
+            {
+                return StatusCode(200, "Acesso liberado!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
 
         [HttpGet("ListarPacientesMedico")]
         public async Task<IActionResult> ListarPacientesMedico([FromQuery] string emailUsuario)
         {
-            List<NomeECpfDoPacienteDto> lista =  await pacienteModel.ListarPacientesMedico(emailUsuario);
-            return Ok(lista);
-        }
-
-        [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
-        {
-            List<Paciente> lista = pacienteModel.ListarTodos();
-            return Ok(lista);
+            try
+            {
+                List<NomeECpfDoPacienteDto> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
+                return Ok(pacientesMedico);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Cadastrar")]
         public async Task<IActionResult> Cadastrar(CadastroPacienteDto novoPaciente)
         {
-        
-            return Ok(await pacienteModel.CadastrarPaciente(novoPaciente));
+            try
+            {
+                Paciente pacienteCriado = await pacienteService.CadastrarPaciente(novoPaciente);
+                return StatusCode(201, pacienteCriado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new {mensagem = "Não foi possível realizar o cadastro. Tente novamente!", ex});
+            }
         }
     }
 }

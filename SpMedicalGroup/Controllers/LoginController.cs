@@ -1,18 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Models;
-using SpMedicalGroup.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Serilog;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using SpMedicalGroup.Contexts;
+using SpMedicalGroup.Models;
+using SpMedicalGroup.Services;
+using SpMedicalGroup.ViewModels;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -21,9 +16,8 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly UsuarioModel usuarioModel = new();
-        private readonly SpMedicalGroupContext ctx = new SpMedicalGroupContext();
-
+        private readonly UsuarioService usuarioService = new();
+        private readonly SpMedicalGroupContext ctx = new();
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
@@ -31,7 +25,7 @@ namespace SpMedicalGroup.Controllers
             try
             {
                 Log.Information("Iniciando login...");
-                Usuario usuarioBuscado = usuarioModel.Login(login.Email, login.Senha);
+                Usuario usuarioBuscado = await usuarioService.Login(login.Email, login.Senha);
 
                 if (usuarioBuscado == null)
                 {
@@ -39,12 +33,6 @@ namespace SpMedicalGroup.Controllers
                     return NotFound("E-mail ou senha inválidos");
                 }
 
-                Log.Information("Usuário encontrado");
-
-
-
-
-                // Busque a role pelo RoleId
                 var roleId = await ctx.Roles
                     .Where(r => r.RoleId == usuarioBuscado.RoleId)
                     .Select(r => r.RoleId)
@@ -63,10 +51,6 @@ namespace SpMedicalGroup.Controllers
                 new Claim("role", roleId.ToString())          
                 };
 
-
-
-
-
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("SpMedicalGroup-chave-autenticacao"));
 
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -79,14 +63,13 @@ namespace SpMedicalGroup.Controllers
                     signingCredentials: creds
                     );
 
-                return Ok(new
+                return StatusCode(200, new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(meuToken)
                 });
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex);
             }
         }

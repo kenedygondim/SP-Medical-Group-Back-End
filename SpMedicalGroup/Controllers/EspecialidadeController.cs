@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Dto.Especialidade;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -16,32 +10,48 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class EspecialidadeController : ControllerBase
     {
-        private readonly EspecialidadeModel especialidadeModel = new();
+        private readonly EspecialidadeService especialidadeService = new();
 
         [HttpGet("obterEspecialidadesMedico")]
-        public async Task<IActionResult> obterEspecialidadesMedico([FromQuery] string cpf)
+        public async Task<IActionResult> ObterEspecialidadesMedico([FromQuery] string cpf)
         {
-            List<NomeEspecialidadeDto> lista = await especialidadeModel.obterEspecialidadesMedico(cpf);
-
-            return Ok(lista);
+            try
+            {
+                List<IdNomeEspecialidadeDto> especialidadesMedico = await especialidadeService.ObterEspecialidadesMedico(cpf);
+                return StatusCode(200, especialidadesMedico);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
 
         [HttpGet("/paginaEspecialidades")]
         public async Task<IActionResult> PaginaEspecialidades()
         {
-            List<PaginaEspecialidadesDto> lista = await especialidadeModel.ListarInfoPaginaEspecialidades();
-
-            return Ok(lista);
+            try
+            {
+                List<PaginaEspecialidadesDto> infoPaginaEspecialidades = await especialidadeService.ListarInfoPaginaEspecialidades();
+                return StatusCode(200, infoPaginaEspecialidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
 
         [HttpGet("ListarTodos")]
         public async Task<IActionResult> ListarTodos()
         {
-            List<Especialidade> especialidades = await especialidadeModel.ListarTodas();
-
-            return Ok(especialidades);
+            try
+            {
+                List<Especialidade> especialidades = await especialidadeService.ListarTodas();
+                return StatusCode(200, especialidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

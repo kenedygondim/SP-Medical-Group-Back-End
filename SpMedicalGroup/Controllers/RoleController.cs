@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -15,24 +10,36 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly RoleModel RoleModel = new();
+        private readonly RoleService RoleService = new();
 
         [Authorize(Roles = "1, 2, 3")]
         [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodos()
         {
-            List<Role> roles = RoleModel.ListarTodas();
-
-            return Ok(roles);
+            try
+            {
+                List<Role> todasRoles = await RoleService.ListarTodas();
+                return StatusCode(200, todasRoles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(Roles = "3")]
         [HttpPost("cadastrar")]
-        public IActionResult Cadastrar(Role novoRole)
+        public async Task<IActionResult> Cadastrar(Role novoRole)
         {
-            RoleModel.Cadastrar(novoRole);
-
-            return StatusCode(201);
+            try
+            {
+                Role roleCriada = await RoleService.Cadastrar(novoRole);
+                return StatusCode(201, roleCriada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

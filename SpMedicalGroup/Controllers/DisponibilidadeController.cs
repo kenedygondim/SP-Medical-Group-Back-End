@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
-using SpMedicalGroup.Models;
+using SpMedicalGroup.Dto.Disponibilidade;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -10,22 +9,33 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class DisponibilidadeController : ControllerBase
     {
-        private readonly DisponibilidadeModel disponibilidadeModel = new();
+        private readonly DisponibilidadeService disponibilidadeService = new();
 
         [HttpPost("adicionar")]
         public async Task<IActionResult> Adicionar(CriarDisponibilidadeDto novaDisponibilidade)
         {
-            await disponibilidadeModel.adicionarDisponibilidade(novaDisponibilidade);
-
-            return StatusCode(201);
+            try
+            {
+                var disponibilidadeCriada = await disponibilidadeService.AdicionarDisponibilidade(novaDisponibilidade);
+                return StatusCode(201, disponibilidadeCriada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest( new { mensagem = "Não foi possível adicionar disponibilidade. Tente Novamente!", ex });
+            }
         }
 
         [HttpGet("listarDisponibilidadesMedicoPorData")]
         public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
         {
-            var disponibilidades = await disponibilidadeModel.ListarDisponibilidadesMedicoPorData(cpf, data);
-
-            return Ok(disponibilidades);
+            try
+            {
+                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data);
+                return StatusCode(200, disponibilidades);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

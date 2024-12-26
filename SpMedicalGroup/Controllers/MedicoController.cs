@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Dto.Medico;
+using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -16,41 +11,63 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class MedicoController : ControllerBase
     {
-        private readonly MedicoModel medicoModel = new();
+        private readonly MedicoService medicoService = new();
 
 
         [HttpGet("InformacoesMedicoEspecifico")]
         public async Task<IActionResult> InformacoesMedicoEspecifico([FromQuery] string cpfMedico)
         {
-            InformacoesMedicoPopUp medico = await medicoModel.InformacoesMedicoEspecifico(cpfMedico);
-
-            return Ok(medico);
+            try
+            {
+                InformacoesMedicoPopUp infoMedicoPopUp = await medicoService.InformacoesMedicoEspecifico(cpfMedico);
+                return StatusCode(200, infoMedicoPopUp);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
-
 
         [HttpGet("Acessar")]
         [Authorize(Roles = "2")]
         public IActionResult Acessar()
         {
-            return Ok();
+            try
+            {
+                return StatusCode(200, "Acesso liberado!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-
         [HttpGet("ListarInformacoesBasicasMedico")]
-        public IActionResult ListarInformacoesBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
+        public async Task<IActionResult> ListarInformacoesBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
         {
-            List<MedicoInformacoesCardDto> lista = medicoModel.ListarInformacoesBasicasMedico(especialidade, nomeMedico, numCrm);
-
-            return Ok(lista);
+            try
+            {
+                List<MedicoInformacoesCardDto> informacoesBasicasMedicos = await medicoService.ListarInformacoesBasicasMedico(especialidade, nomeMedico, numCrm);
+                return StatusCode(200, informacoesBasicasMedicos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodos()
         {
-            List<Medico> lista = medicoModel.ListarTodos();
-
-            return Ok(lista);
+            try
+            {
+                List<Medico> todosMedicos = await medicoService.ListarTodos();
+                return StatusCode(200, todosMedicos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

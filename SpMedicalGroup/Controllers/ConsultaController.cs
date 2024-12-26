@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
+using SpMedicalGroup.Dto.Consulta;
+using SpMedicalGroup.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -18,47 +11,84 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class ConsultaController : ControllerBase
     {
-        private readonly ConsultaModel consultaModel = new();
+        private readonly ConsultaService consultaService = new();
 
         [HttpGet("ListarTodosConsultasMedico")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> ListarTodosConsultasMedico(string email)
         {
-                List<ConsultaDetalhadaDto> result = await consultaModel.ListarTodosConsultasMedico(email);
+            try
+            {
+                List<ConsultaDetalhadaDto> result = await consultaService.ListarTodosConsultasMedico(email);
                 return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("ConfirmarConsultaDetalhes")]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
         {
-                ConfirmarConsultaDetalhesDto result = await consultaModel.ConfirmarConsultaDetalhes(cpf, nomeEspecialidade);
+            try
+            {
+                ConfirmarConsultaDetalhesDto result = await consultaService.ConfirmarConsultaDetalhes(cpf, nomeEspecialidade);
                 return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Acessar")]
+        [Authorize(Roles = "1")]
+        public IActionResult Acessar()
+        {
+            try
+            {
+                return StatusCode(200, "Acesso liberado!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Agendar")]
-        public async Task<IActionResult> Cadastrar(Consulta novaConsulta)
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> Agendar(Consulta novaConsulta)
         {
+            try
+            {
+                Consulta consultaCriada = await consultaService.Agendar(novaConsulta);
+                return StatusCode(201, consultaCriada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new {mensagem = "Não foi possível agendar consulta. Tente novamente!", ex});
+            }
 
-            Consulta consultaCriada = await consultaModel.Cadastrar(novaConsulta);
-            return StatusCode(201, consultaCriada);
         }
 
         /*[Authorize(Roles = "3")]
         [HttpPatch("atualizar/{id}")]
         public IActionResult Atualizar(byte id, Consulta consultaAtt)
         {
-            consultaModel.Atualizar(id, consultaAtt);
+            consultaService.Atualizar(id, consultaAtt);
 
             return StatusCode(204);
 
         }
-
         
 
         [Authorize(Roles = "3")]
         [HttpPost("cancelar/{id}")]
         public IActionResult CancelarConsulta(byte id)
         {
-            consultaModel.CancelarConsulta(id);
+            consultaService.CancelarConsulta(id);
             return StatusCode(204);
         }
 
@@ -66,7 +96,7 @@ namespace SpMedicalGroup.Controllers
         [HttpDelete("deletar/{id}")]
         public IActionResult Deletar(byte id)
         {
-            consultaModel.Deletar(id);
+            consultaService.Deletar(id);
             return StatusCode(204);
         }
 
@@ -77,7 +107,7 @@ namespace SpMedicalGroup.Controllers
 
             try
             {
-                consultaModel.IncluirDescricao(id, descricao);
+                consultaService.IncluirDescricao(id, descricao);
                 return StatusCode(204);
             }
             catch (Exception error)
@@ -99,7 +129,7 @@ namespace SpMedicalGroup.Controllers
             {
                 int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
-                return Ok(consultaModel.LerTodasDoMedico(idUsuario));
+                return Ok(consultaService.LerTodasDoMedico(idUsuario));
             }
             catch (Exception error)
             {
@@ -121,7 +151,7 @@ namespace SpMedicalGroup.Controllers
 
 
 
-                return Ok(consultaModel.LerTodasDoPaciente(idUsuario));
+                return Ok(consultaService.LerTodasDoPaciente(idUsuario));
             }
             catch (Exception error)
             {
@@ -140,7 +170,7 @@ namespace SpMedicalGroup.Controllers
         [HttpGet("ListarTodos")]
         public IActionResult ListarTodos()
         {
-            List<Consulta> lista = consultaModel.ListarTodos();
+            List<Consulta> lista = consultaService.ListarTodos();
 
             return Ok(lista);
         }*/
