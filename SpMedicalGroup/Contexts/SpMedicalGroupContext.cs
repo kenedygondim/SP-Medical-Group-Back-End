@@ -1,8 +1,12 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using SpMedicalGroup.Domains;
-using SpMedicalGroup.Dto;
+using SpMedicalGroup.Dto.Consulta;
+using SpMedicalGroup.Dto.Disponibilidade;
+using SpMedicalGroup.Dto.Especialidade;
+using SpMedicalGroup.Dto.Medico;
+using SpMedicalGroup.Dto.Paciente;
+using SpMedicalGroup.Dto.Usuario;
+using SpMedicalGroup.Models;
+
 
 #nullable disable
 
@@ -52,7 +56,7 @@ namespace SpMedicalGroup.Contexts
             modelBuilder.Entity<NomeECpfDoPacienteDto>().HasNoKey();
             modelBuilder.Entity<CadastroPacienteDto>().HasNoKey();
             modelBuilder.Entity<InformacoesMedicoPopUp>().HasNoKey();
-            modelBuilder.Entity<NomeEspecialidadeDto>().HasNoKey();
+            modelBuilder.Entity<IdNomeEspecialidadeDto>().HasNoKey();
             modelBuilder.Entity<ConfirmarConsultaDetalhesDto>().HasNoKey();
 
 

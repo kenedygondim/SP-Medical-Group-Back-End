@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "Acessar",
+    "RelativePath": "api/Consulta/Acessar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "Agendar",
+    "RelativePath": "api/Consulta/Agendar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novaConsulta",
+        "Type": "SpMedicalGroup.Models.Consulta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
     "Method": "ConfirmarConsultaDetalhes",
     "RelativePath": "api/Consulta/ConfirmarConsultaDetalhes",
     "HttpMethod": "GET",
@@ -46,7 +72,7 @@
     "Parameters": [
       {
         "Name": "novaDisponibilidade",
-        "Type": "SpMedicalGroup.Dto.CriarDisponibilidadeDto",
+        "Type": "SpMedicalGroup.Dto.Disponibilidade.CriarDisponibilidadeDto",
         "IsRequired": true
       }
     ],
@@ -76,14 +102,14 @@
   {
     "ContainingType": "SpMedicalGroup.Controllers.EmpresaController",
     "Method": "Cadastrar",
-    "RelativePath": "api/Empresa/cadastrar",
+    "RelativePath": "api/Empresa/Cadastrar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "novaEmpresa",
-        "Type": "SpMedicalGroup.Domains.Empresa",
+        "Type": "SpMedicalGroup.Models.Empresa",
         "IsRequired": true
       }
     ],
@@ -91,7 +117,7 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.EmpresaController",
-    "Method": "ListarTodos",
+    "Method": "ListarTodas",
     "RelativePath": "api/Empresa/ListarTodos",
     "HttpMethod": "GET",
     "IsController": true,
@@ -111,7 +137,7 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
-    "Method": "obterEspecialidadesMedico",
+    "Method": "ObterEspecialidadesMedico",
     "RelativePath": "api/Especialidade/obterEspecialidadesMedico",
     "HttpMethod": "GET",
     "IsController": true,
@@ -223,7 +249,7 @@
     "Parameters": [
       {
         "Name": "novoPaciente",
-        "Type": "SpMedicalGroup.Dto.CadastroPacienteDto",
+        "Type": "SpMedicalGroup.Dto.Paciente.CadastroPacienteDto",
         "IsRequired": true
       }
     ],
@@ -246,16 +272,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
-    "Method": "ListarTodos",
-    "RelativePath": "api/Paciente/ListarTodos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "SpMedicalGroup.Controllers.RoleController",
     "Method": "Cadastrar",
     "RelativePath": "api/Role/cadastrar",
@@ -265,7 +281,7 @@
     "Parameters": [
       {
         "Name": "novoRole",
-        "Type": "SpMedicalGroup.Domains.Role",
+        "Type": "SpMedicalGroup.Models.Role",
         "IsRequired": true
       }
     ],
