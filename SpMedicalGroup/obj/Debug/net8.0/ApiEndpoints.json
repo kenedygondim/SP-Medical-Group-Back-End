@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "novaConsulta",
-        "Type": "SpMedicalGroup.Models.Consulta",
+        "Type": "SpMedicalGroup.Dto.Consulta.AgendarConsultaDto",
         "IsRequired": true
       }
     ],
@@ -40,6 +40,22 @@
       },
       {
         "Name": "nomeEspecialidade",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "ListarTodasConsultasPaciente",
+    "RelativePath": "api/Consulta/ListarTodasConsultasPaciente",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": false
       }
