@@ -58,6 +58,7 @@ namespace SpMedicalGroup.Contexts
             modelBuilder.Entity<InformacoesMedicoPopUp>().HasNoKey();
             modelBuilder.Entity<IdNomeEspecialidadeDto>().HasNoKey();
             modelBuilder.Entity<ConfirmarConsultaDetalhesDto>().HasNoKey();
+            modelBuilder.Entity<AgendarConsultaDto>().HasNoKey();
 
 
             modelBuilder.Entity<Role>(entity =>
