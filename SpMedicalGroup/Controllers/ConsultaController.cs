@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SpMedicalGroup.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Dto.Consulta;
+using SpMedicalGroup.Models;
 using SpMedicalGroup.Services;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -30,7 +30,7 @@ namespace SpMedicalGroup.Controllers
 
         [HttpGet("ConfirmarConsultaDetalhes")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
+        public async Task<IActionResult> ConfirmarConsultaDetalhes([FromQuery] string cpf, [FromQuery] string nomeEspecialidade)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace SpMedicalGroup.Controllers
 
         [HttpPost("Agendar")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> Agendar(Consulta novaConsulta)
+        public async Task<IActionResult> Agendar(AgendarConsultaDto novaConsulta)
         {
             try
             {
@@ -68,111 +68,23 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new {mensagem = "Não foi possível agendar consulta. Tente novamente!", ex});
-            }
-
-        }
-
-        /*[Authorize(Roles = "3")]
-        [HttpPatch("atualizar/{id}")]
-        public IActionResult Atualizar(byte id, Consulta consultaAtt)
-        {
-            consultaService.Atualizar(id, consultaAtt);
-
-            return StatusCode(204);
-
-        }
-        
-
-        [Authorize(Roles = "3")]
-        [HttpPost("cancelar/{id}")]
-        public IActionResult CancelarConsulta(byte id)
-        {
-            consultaService.CancelarConsulta(id);
-            return StatusCode(204);
-        }
-
-        [Authorize(Roles = "3")]
-        [HttpDelete("deletar/{id}")]
-        public IActionResult Deletar(byte id)
-        {
-            consultaService.Deletar(id);
-            return StatusCode(204);
-        }
-
-        [Authorize(Roles = "2")]
-        [HttpPost("incluir/{id}/{descricao}")]
-        public IActionResult IncluirDescricao(byte id, string descricao)
-        {
-
-            try
-            {
-                consultaService.IncluirDescricao(id, descricao);
-                return StatusCode(204);
-            }
-            catch (Exception error)
-            {
-                return BadRequest(new
-                {
-                    mensagem = "Você não pode incluir descrição em consultas que não são suas",
-                    error
-                });
-            }
-
-        }
-
-        [Authorize(Roles = "2")]
-        [HttpGet("todosMedico")]
-        public IActionResult LerTodasDoMedico()
-        {
-            try
-            {
-                int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
-
-                return Ok(consultaService.LerTodasDoMedico(idUsuario));
-            }
-            catch (Exception error)
-            {
-                return BadRequest(new
-                {
-                    mensagem = "Você não tem autorização para essa requisição",
-                    error
-                });
+                return BadRequest(new { mensagem = "Não foi possível agendar consulta. Tente novamente!", detalhes = ex.Message});
             }
         }
 
+        [HttpGet("ListarTodasConsultasPaciente")]
         [Authorize(Roles = "1")]
-        [HttpGet("todosPaciente")]
-        public IActionResult LerTodasDoPaciente()
+        public async Task<IActionResult> ListarTodasConsultasPaciente([FromQuery] string email)
         {
             try
             {
-                int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
-
-
-
-                return Ok(consultaService.LerTodasDoPaciente(idUsuario));
+                List<ConsultaDetalhadaDto> result = await consultaService.ListarTodasConsultasPaciente(email);
+                return StatusCode(200, result);
             }
-            catch (Exception error)
+            catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    mensagem = "Você não tem autorização para essa requisição",
-                    error
-                });
-
-                throw;
+                return BadRequest(ex.Message);
             }
-
         }
-
-        [Authorize(Roles = "3")]
-        [HttpGet("ListarTodos")]
-        public IActionResult ListarTodos()
-        {
-            List<Consulta> lista = consultaService.ListarTodos();
-
-            return Ok(lista);
-        }*/
     }
 }
