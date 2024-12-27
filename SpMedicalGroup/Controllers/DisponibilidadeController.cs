@@ -21,7 +21,7 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest( new { mensagem = "Não foi possível adicionar disponibilidade. Tente Novamente!", ex });
+                return BadRequest( new { mensagem = "Não foi possível adicionar disponibilidade. Tente Novamente!", detalhes = ex.Message });
             }
         }
 

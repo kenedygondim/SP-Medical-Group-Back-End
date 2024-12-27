@@ -38,7 +38,7 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { mensagem = "Não foi possível cadastrar empresa. Tente novamente!", ex });
+                return BadRequest(new { mensagem = "Não foi possível cadastrar empresa. Tente novamente!", detalhes = ex.Message });
             }
         }
     }
