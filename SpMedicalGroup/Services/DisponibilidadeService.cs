@@ -34,9 +34,16 @@ namespace SpMedicalGroup.Services
 
         public async Task<List<Disponibilidade>> ListarDisponibilidadesMedicoPorData(string cpf, string data)
         {
-            return await ctx.Disponibilidades
-                .Where(d => d.CpfMedico == cpf && d.DataDisp == data)
-                .ToListAsync();
+            var disponibilidadePorData = await
+                (from dis in ctx.Disponibilidades
+                 join con in ctx.Consulta on dis.DisponibilidadeId equals con.DisponibilidadeId into consultas
+                 from con in consultas.DefaultIfEmpty() // Left join
+                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                 where med.Cpf == cpf && dis.DataDisp == data && con.Situacao == null
+                 select dis).ToListAsync();
+
+            return disponibilidadePorData;
         }
+
     }
 }
