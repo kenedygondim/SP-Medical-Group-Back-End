@@ -32,7 +32,8 @@ namespace SpMedicalGroup.Services
                 join medEsp in ctx.MedicosEspecialidades on esp.EspecialidadeId equals medEsp.EspecialidadeId
                 join med in ctx.Medicos on medEsp.CpfMedico equals med.Cpf
                 group new { med, medEsp } by new { esp.Nome, esp.Descricao } into grouped
-                select new PaginaEspecialidadesDto
+                orderby grouped.Key.Nome
+                 select new PaginaEspecialidadesDto
                 {
                     Especialidade = grouped.Key.Nome,
                     Descricao = grouped.Key.Descricao,
