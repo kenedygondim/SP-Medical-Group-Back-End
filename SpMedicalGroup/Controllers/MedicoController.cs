@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Medico;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Dto.Paciente;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -63,6 +64,20 @@ namespace SpMedicalGroup.Controllers
             {
                 List<Medico> todosMedicos = await medicoService.ListarTodos();
                 return StatusCode(200, todosMedicos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("NomeECpfMedico")]
+        public async Task<IActionResult> RetornarNomeECpfMedico([FromQuery] string email)
+        {
+            try
+            {
+                NomeCompletoECpfDto paciente = await medicoService.NomeECpfMedico(email);
+                return Ok(paciente);
             }
             catch (Exception ex)
             {

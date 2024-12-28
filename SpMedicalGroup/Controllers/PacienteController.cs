@@ -32,7 +32,7 @@ namespace SpMedicalGroup.Controllers
         {
             try
             {
-                List<NomeECpfDoPacienteDto> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
+                List<NomeCompletoECpfDto> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
                 return Ok(pacientesMedico);
             }
             catch (Exception ex)
@@ -52,6 +52,20 @@ namespace SpMedicalGroup.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new {mensagem = "Não foi possível realizar o cadastro. Tente novamente!", detalhes = ex.Message});
+            }
+        }
+
+        [HttpGet("NomeECpfPaciente")]
+        public async Task<IActionResult> RetornarNomeECpfPaciente([FromQuery] string email)
+        {
+            try
+            {
+                NomeCompletoECpfDto paciente = await pacienteService.NomeECpfPaciente(email);
+                return Ok(paciente);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
