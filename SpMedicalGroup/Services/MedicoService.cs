@@ -2,6 +2,7 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Medico;
+using SpMedicalGroup.Dto.Paciente;
 
 
 namespace SpMedicalGroup.Services
@@ -93,6 +94,22 @@ namespace SpMedicalGroup.Services
         public async Task<List<Medico>> ListarTodos()
         {
              return await ctx.Medicos.ToListAsync();
+        }
+
+        public async Task<NomeCompletoECpfDto> NomeECpfMedico(string email)
+        {
+            await BuscaCpfMedicoPorEmail(email);
+            var medico = await
+                (from usu in ctx.Usuarios
+                 join med in ctx.Medicos
+                 on usu.UsuarioId equals med.UsuarioId
+                 where usu.Email == email
+                 select new NomeCompletoECpfDto
+                 {
+                     Cpf = med.Cpf,
+                     NomeCompleto = med.NomeCompleto
+                 }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
+            return medico;
         }
     }
 }

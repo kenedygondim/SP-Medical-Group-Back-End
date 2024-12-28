@@ -105,6 +105,7 @@ namespace SpMedicalGroup.Services
                  join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
                  join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
                  join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+                 join ftp in ctx.FotosPerfil on med.FotoPerfilId equals ftp.FotoPerfilId
                  join medEsp in ctx.MedicosEspecialidades
                      on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
                      equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
@@ -114,6 +115,7 @@ namespace SpMedicalGroup.Services
                      NomePaciente = pac.NomeCompleto,
                      CpfPaciente = pac.Cpf,
                      NomeMedico = med.NomeCompleto,
+                     fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",
                      Especialidade = esp.Nome,
                      DataConsulta = dis.DataDisp,
                      HoraInicio = dis.HoraInicio,

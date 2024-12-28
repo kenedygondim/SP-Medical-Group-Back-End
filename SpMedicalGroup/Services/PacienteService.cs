@@ -11,43 +11,43 @@ namespace SpMedicalGroup.Services
         private readonly EnderecoService enderecoService = new();
         private readonly UsuarioService usuarioService = new();
 
-        public async Task<List<NomeECpfDoPacienteDto>> ListarPacientesMedico(string emailUsuario)
+        public async Task<List<NomeCompletoECpfDto>> ListarPacientesMedico(string emailUsuario)
         {
             string cpfMedico = await MedicoService.BuscaCpfMedicoPorEmail(emailUsuario);
 
-            var pacientesMedico = await 
+            var pacientesMedico = await
                 (from pac in ctx.Pacientes
-                join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-                join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-                join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-                join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-                join medEsp in ctx.MedicosEspecialidades
-                    on new { CpfMedico = med.Cpf, EspecialidadeId = esp.EspecialidadeId } 
-                    equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-                where med.Cpf == cpfMedico
-                select new NomeECpfDoPacienteDto
-                {
-                    Cpf = pac.Cpf,
-                    NomeCompleto = pac.NomeCompleto
-                }).ToListAsync();
+                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
+                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
+                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+                 join medEsp in ctx.MedicosEspecialidades
+                     on new { CpfMedico = med.Cpf, EspecialidadeId = esp.EspecialidadeId }
+                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
+                 where med.Cpf == cpfMedico
+                 select new NomeCompletoECpfDto
+                 {
+                     Cpf = pac.Cpf,
+                     NomeCompleto = pac.NomeCompleto
+                 }).ToListAsync();
 
             return pacientesMedico;
         }
 
         public static async Task<string> BuscaCpfPacientePorEmail(string email)
         {
-                var cpfPaciente = await
-                (from tb_usuarios in ctx.Usuarios
-                 join tb_pacientes in ctx.Pacientes
-                 on tb_usuarios.UsuarioId equals tb_pacientes.UsuarioId
-                 where tb_usuarios.Email == email
-                 select tb_pacientes.Cpf).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado");
+            var cpfPaciente = await
+            (from tb_usuarios in ctx.Usuarios
+             join tb_pacientes in ctx.Pacientes
+             on tb_usuarios.UsuarioId equals tb_pacientes.UsuarioId
+             where tb_usuarios.Email == email
+             select tb_pacientes.Cpf).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado");
 
-                return cpfPaciente;
+            return cpfPaciente;
         }
 
-        public async Task<Paciente> CadastrarPaciente (CadastroPacienteDto novoPaciente)
-        {   
+        public async Task<Paciente> CadastrarPaciente(CadastroPacienteDto novoPaciente)
+        {
 
             using var transaction = ctx.Database.BeginTransaction();
             try
@@ -114,5 +114,20 @@ namespace SpMedicalGroup.Services
             }
         }
 
+        public async Task<NomeCompletoECpfDto> NomeECpfPaciente(string email)
+        {
+            await BuscaCpfPacientePorEmail(email);
+            var paciente = await
+                (from usu in ctx.Usuarios
+                 join pac in ctx.Pacientes
+                 on usu.UsuarioId equals pac.UsuarioId
+                 where usu.Email == email
+                 select new NomeCompletoECpfDto
+                 {
+                     Cpf = pac.Cpf,
+                     NomeCompleto = pac.NomeCompleto
+                 }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
+            return paciente;
+        }
     }
 }
