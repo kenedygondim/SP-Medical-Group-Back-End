@@ -5,6 +5,7 @@
         public string NomePaciente { get; set; } = string.Empty;
         public string CpfPaciente { get; set; } = string.Empty;
         public string NomeMedico { get; set; } = string.Empty;
+        public string fotoPerfilUrl { get; set; } = string.Empty;
         public string Especialidade { get; set; } = string.Empty;
         public string DataConsulta { get; set; } = string.Empty;
         public string HoraInicio { get; set; } = string.Empty;
