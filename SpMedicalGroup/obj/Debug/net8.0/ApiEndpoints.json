@@ -246,6 +246,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "RetornarNomeECpfMedico",
+    "RelativePath": "api/Medico/NomeECpfMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
     "Method": "Acessar",
     "RelativePath": "api/Paciente/Acessar",
@@ -281,6 +297,22 @@
     "Parameters": [
       {
         "Name": "emailUsuario",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "RetornarNomeECpfPaciente",
+    "RelativePath": "api/Paciente/NomeECpfPaciente",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": false
       }
