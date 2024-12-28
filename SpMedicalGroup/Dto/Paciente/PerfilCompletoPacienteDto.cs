@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Paciente
 {
-    public class CadastroPacienteDto
+    public class PerfilCompletoPacienteDto
     {
         public string NomeCompleto { get; set; } = string.Empty;
         public string DataNascimento { get; set; } = string.Empty;
@@ -15,5 +15,6 @@
         public string Municipio { get; set; } = string.Empty;
         public string Uf { get; set; } = string.Empty;
         public string Complemento { get; set; } = string.Empty;
+        public string FotoPerfilUrl { get; set; } = string.Empty;
     }
 }
