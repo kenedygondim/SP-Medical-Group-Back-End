@@ -26,6 +26,7 @@ namespace SpMedicalGroup.Services
                 where med.Cpf == cpfMedico
                 select new ConsultaDetalhadaDto
                 {
+                    ConsultaId = con.ConsultaId,
                     NomePaciente = pac.NomeCompleto,
                     CpfPaciente = pac.Cpf,
                     NomeMedico = med.NomeCompleto,
@@ -104,6 +105,8 @@ namespace SpMedicalGroup.Services
                  join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
                  join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
                  join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
+                 join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
                  join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
                  join ftp in ctx.FotosPerfil on med.FotoPerfilId equals ftp.FotoPerfilId
                  join medEsp in ctx.MedicosEspecialidades
@@ -112,17 +115,26 @@ namespace SpMedicalGroup.Services
                  where pac.Cpf == cpfPaciente
                  select new ConsultaDetalhadaDto
                  {
+                     ConsultaId = con.ConsultaId,
                      NomePaciente = pac.NomeCompleto,
                      CpfPaciente = pac.Cpf,
                      NomeMedico = med.NomeCompleto,
                      fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",
                      Especialidade = esp.Nome,
+                     Descricao = con.Descricao,
                      DataConsulta = dis.DataDisp,
                      HoraInicio = dis.HoraInicio,
                      HoraFim = dis.HoraFim,
                      Preco = medEsp.ValorProcedimento,
-                     //Adicionar Descrição e Endereço
-                     Situacao = con.Situacao
+                     Situacao = con.Situacao,
+                     IsTelemedicina = con.IsTelemedicina,
+                     Cep = end.Cep,
+                     Uf = end.Uf,
+                     Municipio = end.Municipio,
+                     Bairro = end.Bairro,
+                     Logradouro = end.Logradouro,
+                     Numero = end.Numero,
+                     Complemento = end.Complemento ?? ""
                  }).ToListAsync();
                 
 

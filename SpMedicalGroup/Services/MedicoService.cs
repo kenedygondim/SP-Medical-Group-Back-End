@@ -96,18 +96,19 @@ namespace SpMedicalGroup.Services
              return await ctx.Medicos.ToListAsync();
         }
 
-        public async Task<NomeCompletoECpfDto> NomeECpfMedico(string email)
+        public async Task<InfoBasicasUsuario> InfoBasicasUsuario(string email)
         {
-            await BuscaCpfMedicoPorEmail(email);
             var medico = await
                 (from usu in ctx.Usuarios
-                 join med in ctx.Medicos
-                 on usu.UsuarioId equals med.UsuarioId
+                 join med in ctx.Medicos on usu.UsuarioId equals med.UsuarioId
+                 join foto in ctx.FotosPerfil on med.FotoPerfilId equals foto.FotoPerfilId into fotos
+                 from fotoLeft in fotos.DefaultIfEmpty()
                  where usu.Email == email
-                 select new NomeCompletoECpfDto
+                 select new InfoBasicasUsuario
                  {
                      Cpf = med.Cpf,
-                     NomeCompleto = med.NomeCompleto
+                     NomeCompleto = med.NomeCompleto,
+                     FotoPerfilUrl = fotoLeft.FotoPerfilUrl ?? ""
                  }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
             return medico;
         }

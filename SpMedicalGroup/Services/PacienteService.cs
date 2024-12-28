@@ -11,28 +11,29 @@ namespace SpMedicalGroup.Services
         private readonly EnderecoService enderecoService = new();
         private readonly UsuarioService usuarioService = new();
 
-        public async Task<List<NomeCompletoECpfDto>> ListarPacientesMedico(string emailUsuario)
-        {
-            string cpfMedico = await MedicoService.BuscaCpfMedicoPorEmail(emailUsuario);
+        //public async Task<List<InfoBasicasPaciente>> ListarPacientesMedico(string emailUsuario)
+        //{
+        //    string cpfMedico = await MedicoService.BuscaCpfMedicoPorEmail(emailUsuario);
 
-            var pacientesMedico = await
-                (from pac in ctx.Pacientes
-                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-                 join medEsp in ctx.MedicosEspecialidades
-                     on new { CpfMedico = med.Cpf, EspecialidadeId = esp.EspecialidadeId }
-                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-                 where med.Cpf == cpfMedico
-                 select new NomeCompletoECpfDto
-                 {
-                     Cpf = pac.Cpf,
-                     NomeCompleto = pac.NomeCompleto
-                 }).ToListAsync();
+        //    var pacientesMedico = await
+        //        (from pac in ctx.Pacientes
+        //         join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
+        //         join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
+        //         join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+        //         join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+        //         join medEsp in ctx.MedicosEspecialidades
+        //             on new { CpfMedico = med.Cpf, EspecialidadeId = esp.EspecialidadeId }
+        //             equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
+        //         where med.Cpf == cpfMedico
+        //         select new InfoBasicasPaciente
+        //         {
+        //             Cpf = pac.Cpf,
+        //             NomeCompleto = pac.NomeCompleto,
 
-            return pacientesMedico;
-        }
+        //         }).ToListAsync();
+
+        //    return pacientesMedico;
+        //}
 
         public static async Task<string> BuscaCpfPacientePorEmail(string email)
         {
@@ -46,7 +47,7 @@ namespace SpMedicalGroup.Services
             return cpfPaciente;
         }
 
-        public async Task<Paciente> CadastrarPaciente(CadastroPacienteDto novoPaciente)
+        public async Task<Paciente> CadastrarPaciente(PerfilCompletoPacienteDto novoPaciente)
         {
 
             using var transaction = ctx.Database.BeginTransaction();
@@ -114,20 +115,48 @@ namespace SpMedicalGroup.Services
             }
         }
 
-        public async Task<NomeCompletoECpfDto> NomeECpfPaciente(string email)
+        public async Task<InfoBasicasUsuario> InfoBasicasUsuario(string email)
         {
-            await BuscaCpfPacientePorEmail(email);
             var paciente = await
                 (from usu in ctx.Usuarios
-                 join pac in ctx.Pacientes
-                 on usu.UsuarioId equals pac.UsuarioId
+                 join pac in ctx.Pacientes on usu.UsuarioId equals pac.UsuarioId
+                 join foto in ctx.FotosPerfil on pac.FotoPerfilId equals foto.FotoPerfilId into fotos
+                 from fotoLeft in fotos.DefaultIfEmpty()
                  where usu.Email == email
-                 select new NomeCompletoECpfDto
+                 select new InfoBasicasUsuario
                  {
                      Cpf = pac.Cpf,
-                     NomeCompleto = pac.NomeCompleto
+                     NomeCompleto = pac.NomeCompleto,
+                     FotoPerfilUrl = fotoLeft.FotoPerfilUrl ?? ""
                  }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
             return paciente;
+        }
+
+        public async Task<PerfilCompletoPacienteDto> PerfilCompletoPaciente(string email)
+        {
+            return await
+                (from usu in ctx.Usuarios
+                 join pac in ctx.Pacientes on usu.UsuarioId equals pac.UsuarioId
+                 join end in ctx.Enderecos on pac.EnderecoId equals end.EnderecoId
+                 join foto in ctx.FotosPerfil on pac.FotoPerfilId equals foto.FotoPerfilId into fotos
+                 from fotoLeft in fotos.DefaultIfEmpty()
+                 where usu.Email == email
+                 select new PerfilCompletoPacienteDto
+                 {
+                     NomeCompleto = pac.NomeCompleto,
+                     DataNascimento = pac.DataNascimento,
+                     Rg = pac.Rg,
+                     Cpf = pac.Cpf,
+                     Email = usu.Email,
+                     Cep = end.Cep,
+                     Logradouro = end.Logradouro,
+                     Numero = end.Numero,
+                     Bairro = end.Bairro,
+                     Municipio = end.Municipio,
+                     Uf = end.Uf,
+                     Complemento = end.Complemento ?? "",
+                     FotoPerfilUrl = fotoLeft.FotoPerfilUrl ?? ""
+                 }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");         
         }
     }
 }
