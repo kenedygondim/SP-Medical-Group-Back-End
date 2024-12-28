@@ -195,6 +195,22 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "RetornarInfoBasicasUsuario",
+    "RelativePath": "api/Medico/InfoBasicasUsuario",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
     "Method": "InformacoesMedicoEspecifico",
     "RelativePath": "api/Medico/InformacoesMedicoEspecifico",
     "HttpMethod": "GET",
@@ -246,22 +262,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
-    "Method": "RetornarNomeECpfMedico",
-    "RelativePath": "api/Medico/NomeECpfMedico",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
     "Method": "Acessar",
     "RelativePath": "api/Paciente/Acessar",
@@ -281,7 +281,7 @@
     "Parameters": [
       {
         "Name": "novoPaciente",
-        "Type": "SpMedicalGroup.Dto.Paciente.CadastroPacienteDto",
+        "Type": "SpMedicalGroup.Dto.Paciente.PerfilCompletoPacienteDto",
         "IsRequired": true
       }
     ],
@@ -289,14 +289,14 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
-    "Method": "ListarPacientesMedico",
-    "RelativePath": "api/Paciente/ListarPacientesMedico",
+    "Method": "RetornarInfoBasicasUsuario",
+    "RelativePath": "api/Paciente/InfoBasicasUsuario",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "emailUsuario",
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -305,8 +305,8 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
-    "Method": "RetornarNomeECpfPaciente",
-    "RelativePath": "api/Paciente/NomeECpfPaciente",
+    "Method": "PerfilCompletoPaciente",
+    "RelativePath": "api/Paciente/PerfilCompletoPaciente",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
