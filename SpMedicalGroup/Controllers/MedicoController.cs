@@ -71,12 +71,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("NomeECpfMedico")]
-        public async Task<IActionResult> RetornarNomeECpfMedico([FromQuery] string email)
+        [HttpGet("InfoBasicasUsuario")]
+        public async Task<IActionResult> RetornarInfoBasicasUsuario([FromQuery] string email)
         {
             try
             {
-                NomeCompletoECpfDto paciente = await medicoService.NomeECpfMedico(email);
+                InfoBasicasUsuario paciente = await medicoService.InfoBasicasUsuario(email);
                 return Ok(paciente);
             }
             catch (Exception ex)

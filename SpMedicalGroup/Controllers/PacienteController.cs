@@ -27,22 +27,24 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ListarPacientesMedico")]
-        public async Task<IActionResult> ListarPacientesMedico([FromQuery] string emailUsuario)
-        {
-            try
-            {
-                List<NomeCompletoECpfDto> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
-                return Ok(pacientesMedico);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpGet("ListarPacientesMedico")]
+        //[Authorize(Roles = "2")]
+        //public async Task<IActionResult> ListarPacientesMedico([FromQuery] string emailUsuario)
+        //{
+        //    try
+        //    {
+        //        List<InfoBasicasPaciente> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
+        //        return Ok(pacientesMedico);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [HttpPost("Cadastrar")]
-        public async Task<IActionResult> Cadastrar(CadastroPacienteDto novoPaciente)
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> Cadastrar(PerfilCompletoPacienteDto novoPaciente)
         {
             try
             {
@@ -51,16 +53,32 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new {mensagem = "Não foi possível realizar o cadastro. Tente novamente!", detalhes = ex.Message});
+                return BadRequest(new { mensagem = "Não foi possível realizar o cadastro. Tente novamente!", detalhes = ex.Message });
             }
         }
 
-        [HttpGet("NomeECpfPaciente")]
-        public async Task<IActionResult> RetornarNomeECpfPaciente([FromQuery] string email)
+        [HttpGet("InfoBasicasUsuario")]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> RetornarInfoBasicasUsuario([FromQuery] string email)
         {
             try
             {
-                NomeCompletoECpfDto paciente = await pacienteService.NomeECpfPaciente(email);
+                InfoBasicasUsuario paciente = await pacienteService.InfoBasicasUsuario(email);
+                return Ok(paciente);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("PerfilCompletoPaciente")]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> PerfilCompletoPaciente([FromQuery] string email)
+        {
+            try
+            {
+                PerfilCompletoPacienteDto paciente = await pacienteService.PerfilCompletoPaciente(email);
                 return Ok(paciente);
             }
             catch (Exception ex)
