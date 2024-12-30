@@ -27,6 +27,22 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "CancelarConsulta",
+    "RelativePath": "api/Consulta/CancelarConsulta",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "consultaId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
     "Method": "ConfirmarConsultaDetalhes",
     "RelativePath": "api/Consulta/ConfirmarConsultaDetalhes",
     "HttpMethod": "GET",

@@ -33,7 +33,7 @@ namespace SpMedicalGroup.Services
         }
 
         public async Task<List<Disponibilidade>> ListarDisponibilidadesMedicoPorData(string cpf, string data)
-        {
+        {   
             var disponibilidadePorData = await
                 (from dis in ctx.Disponibilidades
                  join con in ctx.Consulta on dis.DisponibilidadeId equals con.DisponibilidadeId into consultas
