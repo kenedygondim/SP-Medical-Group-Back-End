@@ -86,5 +86,20 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("CancelarConsulta")]
+        [Authorize(Roles = "1,2,3")]
+        public async Task<IActionResult> CancelarConsulta([FromQuery] int consultaId)
+        {
+            try
+            {
+                await consultaService.CancelarConsulta(consultaId);
+                return StatusCode(204, "Consulta cancelada com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
