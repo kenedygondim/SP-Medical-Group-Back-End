@@ -140,5 +140,15 @@ namespace SpMedicalGroup.Services
 
             return consultasPaciente;
         }
+
+        public async Task<string> CancelarConsulta (int consultaId)
+        {
+            var consulta = await ctx.Consulta
+                .Where(c => c.ConsultaId == consultaId)
+                .FirstOrDefaultAsync() ?? throw new Exception("Consulta não encontrada");
+            ctx.Consulta.Remove(consulta);
+            await ctx.SaveChangesAsync();
+            return "Cancelada com sucesso!";
+        }
     }
 }
