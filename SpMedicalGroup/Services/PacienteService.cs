@@ -2,6 +2,7 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Paciente;
+using SpMedicalGroup.Dto.Medico;
 
 namespace SpMedicalGroup.Services
 {
@@ -157,6 +158,36 @@ namespace SpMedicalGroup.Services
                      Complemento = end.Complemento ?? "",
                      FotoPerfilUrl = fotoLeft.FotoPerfilUrl ?? ""
                  }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");         
+        }
+
+        public async Task<List<InfoBasicasUsuario>> ListarInformacoesBasicasPaciente(string emailMedico, string? especialidade, string? nomePaciente, string? dataAtendimento)
+        {
+            var query = from pac in ctx.Pacientes
+                        join fot in ctx.FotosPerfil on pac.FotoPerfilId equals fot.FotoPerfilId into fotos
+                        from fot in fotos.DefaultIfEmpty()
+                        select new InfoBasicasUsuario
+                         {
+                            Cpf = pac.Cpf,
+                            NomeCompleto = pac.NomeCompleto,
+                            FotoPerfilUrl = fot.FotoPerfilUrl ?? ""
+                        };
+
+            if (!string.IsNullOrEmpty(especialidade))
+            {
+                //query = from med in query
+                //        join medEsp in ctx.MedicosEspecialidades on med.Cpf equals medEsp.CpfMedico
+                //        join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
+                //        where esp.Nome.Contains(especialidade)
+                //        select med;
+            }
+            if (!string.IsNullOrEmpty(nomePaciente))
+                query = query.Where(pac => pac.NomeCompleto.Contains(nomePaciente));
+
+            if (!string.IsNullOrEmpty(dataAtendimento)) { }
+                //query = query.Where(med => med.Crm.Contains(numCrm));
+
+
+            return await query.ToListAsync();
         }
     }
 }

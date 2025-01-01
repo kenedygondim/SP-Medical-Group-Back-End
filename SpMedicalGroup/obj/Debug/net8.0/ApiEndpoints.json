@@ -278,6 +278,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SpMedicalGroup.Controllers.MedicoController",
+    "Method": "PerfilCompletoMedico",
+    "RelativePath": "api/Medico/PerfilCompletoMedico",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
     "Method": "Acessar",
     "RelativePath": "api/Paciente/Acessar",
@@ -313,6 +329,32 @@
     "Parameters": [
       {
         "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.PacienteController",
+    "Method": "InformacoesBasicasPaciente",
+    "RelativePath": "api/Paciente/InformacoesBasicasPaciente",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "especialidade",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "nomePaciente",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "dataAtendimento",
         "Type": "System.String",
         "IsRequired": false
       }

@@ -112,5 +112,37 @@ namespace SpMedicalGroup.Services
                  }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
             return medico;
         }
+
+        public async Task<PerfilCompletoMedicoDto> PerfilCompletoMedico(string email)
+        {
+            return await
+                (from usu in ctx.Usuarios
+                 join med in ctx.Medicos on usu.UsuarioId equals med.UsuarioId
+                 join end in ctx.Enderecos on med.EnderecoId equals end.EnderecoId
+                 join foto in ctx.FotosPerfil on med.FotoPerfilId equals foto.FotoPerfilId into fotos
+                 from fotoLeft in fotos.DefaultIfEmpty()
+                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj into empresas
+                 from empLeft in empresas.DefaultIfEmpty()
+                 where usu.Email == email
+                 select new PerfilCompletoMedicoDto
+                 {
+                     NomeCompleto = med.NomeCompleto,
+                     DataNascimento = med.DataNascimento,
+                     Rg = med.Rg,
+                     Cpf = med.Cpf,
+                     Email = usu.Email,
+                     Cep = end.Cep,
+                     Logradouro = end.Logradouro,
+                     Numero = end.Numero,
+                     Bairro = end.Bairro,
+                     Municipio = end.Municipio,
+                     Uf = end.Uf,
+                     Complemento = end.Complemento ?? "",
+                     FotoPerfilUrl = fotoLeft.FotoPerfilUrl ?? "",
+                     Crm = med.Crm,
+                     Hospital = empLeft.NomeFantasia ?? ""
+                 }).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado");
+        }
+
     }
 }
