@@ -84,5 +84,20 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("PerfilCompletoMedico")]
+        [Authorize(Roles = "2")]
+        public async Task<IActionResult> PerfilCompletoMedico([FromQuery] string email)
+        {
+            try
+            {
+                PerfilCompletoMedicoDto medico = await medicoService.PerfilCompletoMedico(email);
+                return Ok(medico);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
