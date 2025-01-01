@@ -344,6 +344,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "emailMedico",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "especialidade",
         "Type": "System.String",
         "IsRequired": false

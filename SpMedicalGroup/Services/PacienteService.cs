@@ -2,7 +2,6 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Paciente;
-using SpMedicalGroup.Dto.Medico;
 
 namespace SpMedicalGroup.Services
 {
@@ -166,7 +165,7 @@ namespace SpMedicalGroup.Services
                         join fot in ctx.FotosPerfil on pac.FotoPerfilId equals fot.FotoPerfilId into fotos
                         from fot in fotos.DefaultIfEmpty()
                         select new InfoBasicasUsuario
-                         {
+                        {
                             Cpf = pac.Cpf,
                             NomeCompleto = pac.NomeCompleto,
                             FotoPerfilUrl = fot.FotoPerfilUrl ?? ""
@@ -184,7 +183,7 @@ namespace SpMedicalGroup.Services
                 query = query.Where(pac => pac.NomeCompleto.Contains(nomePaciente));
 
             if (!string.IsNullOrEmpty(dataAtendimento)) { }
-                //query = query.Where(med => med.Crm.Contains(numCrm));
+            //query = query.Where(med => med.Crm.Contains(numCrm));
 
 
             return await query.ToListAsync();
