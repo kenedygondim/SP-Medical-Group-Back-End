@@ -86,5 +86,21 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("InformacoesBasicasPaciente")]
+        public async Task<IActionResult> InformacoesBasicasPaciente([FromQuery] string emailMedico, [FromQuery] string? especialidade, [FromQuery] string? nomePaciente, [FromQuery] string? dataAtendimento)
+        {
+            try
+            {
+                List<InfoBasicasUsuario> pacientes = await pacienteService.ListarInformacoesBasicasPaciente(emailMedico, especialidade, nomePaciente, dataAtendimento);
+                return Ok(pacientes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }
