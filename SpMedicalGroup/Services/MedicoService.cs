@@ -67,7 +67,7 @@ namespace SpMedicalGroup.Services
                 query = from med in query
                         join medEsp in ctx.MedicosEspecialidades on med.Cpf equals medEsp.CpfMedico
                         join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
-                        where esp.Nome.Contains(especialidade)
+                        where esp.Nome.Equals(especialidade)
                         select med;
             }
             if (!string.IsNullOrEmpty(nomeMedico))
