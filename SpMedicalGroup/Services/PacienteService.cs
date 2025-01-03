@@ -2,6 +2,8 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Paciente;
+using Microsoft.IdentityModel.Tokens;
+using SpMedicalGroup.Services.AWS;
 
 namespace SpMedicalGroup.Services
 {
@@ -9,7 +11,9 @@ namespace SpMedicalGroup.Services
     {
         private static readonly SpMedicalGroupContext ctx = new();
         private readonly EnderecoService enderecoService = new();
+        private readonly FotoPerfilService fotoPerfilService = new();
         private readonly UsuarioService usuarioService = new();
+        private readonly S3Service s3Service = new();
 
         //public async Task<List<InfoBasicasPaciente>> ListarPacientesMedico(string emailUsuario)
         //{
@@ -47,7 +51,7 @@ namespace SpMedicalGroup.Services
             return cpfPaciente;
         }
 
-        public async Task<Paciente> CadastrarPaciente(PerfilCompletoPacienteDto novoPaciente)
+        public async Task<Paciente> CadastrarPaciente(CadastroPacienteDto novoPaciente)
         {
 
             using var transaction = ctx.Database.BeginTransaction();
@@ -83,8 +87,25 @@ namespace SpMedicalGroup.Services
                     Cpf = novoPaciente.Cpf,
                     EnderecoId = enderecoCriado.EnderecoId,
                     UsuarioId = usuarioCriado.UsuarioId
-
                 };
+
+
+                if (novoPaciente.FotoPerfilFile != null)
+                {
+                    var fileName = $"SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-{paciente.UsuarioId}";
+
+                    using var stream = novoPaciente.FotoPerfilFile.OpenReadStream();
+                    string urlAws = await s3Service.UploadFileAsync(stream, fileName);
+
+                    FotoPerfil fotoPerfil = new()
+                    {
+                        FotoPerfilUrl = urlAws
+                    };
+
+                    FotoPerfil FotoPerfilCriado = await fotoPerfilService.cadastrarFotoPerfil(fotoPerfil);
+
+                    paciente.FotoPerfilId = FotoPerfilCriado.FotoPerfilId;
+                }
 
                 Paciente pacienteCriado = await AdicionarPaciente(paciente);
 
@@ -132,7 +153,7 @@ namespace SpMedicalGroup.Services
             return paciente;
         }
 
-        public async Task<PerfilCompletoPacienteDto> PerfilCompletoPaciente(string email)
+        public async Task<PerfilPacienteDto> PerfilCompletoPaciente(string email)
         {
             return await
                 (from usu in ctx.Usuarios
@@ -141,7 +162,7 @@ namespace SpMedicalGroup.Services
                  join foto in ctx.FotosPerfil on pac.FotoPerfilId equals foto.FotoPerfilId into fotos
                  from fotoLeft in fotos.DefaultIfEmpty()
                  where usu.Email == email
-                 select new PerfilCompletoPacienteDto
+                 select new PerfilPacienteDto
                  {
                      NomeCompleto = pac.NomeCompleto,
                      DataNascimento = pac.DataNascimento,
@@ -164,6 +185,15 @@ namespace SpMedicalGroup.Services
             var query = from pac in ctx.Pacientes
                         join fot in ctx.FotosPerfil on pac.FotoPerfilId equals fot.FotoPerfilId into fotos
                         from fot in fotos.DefaultIfEmpty()
+                        join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
+                        join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
+                        join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                        join usu in ctx.Usuarios on med.UsuarioId equals usu.UsuarioId
+                        join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+                        where usu.Email == emailMedico
+                        && (especialidade == null || esp.Nome.Equals(especialidade))
+                        && (nomePaciente == null || pac.NomeCompleto.Contains(nomePaciente))
+                        && (dataAtendimento == null || dis.DataDisp == dataAtendimento)
                         select new InfoBasicasUsuario
                         {
                             Cpf = pac.Cpf,
@@ -171,22 +201,8 @@ namespace SpMedicalGroup.Services
                             FotoPerfilUrl = fot.FotoPerfilUrl ?? ""
                         };
 
-            if (!string.IsNullOrEmpty(especialidade))
-            {
-                //query = from med in query
-                //        join medEsp in ctx.MedicosEspecialidades on med.Cpf equals medEsp.CpfMedico
-                //        join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
-                //        where esp.Nome.Contains(especialidade)
-                //        select med;
-            }
-            if (!string.IsNullOrEmpty(nomePaciente))
-                query = query.Where(pac => pac.NomeCompleto.Contains(nomePaciente));
-
-            if (!string.IsNullOrEmpty(dataAtendimento)) { }
-            //query = query.Where(med => med.Crm.Contains(numCrm));
-
-
             return await query.ToListAsync();
+
         }
     }
 }
