@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "0mfRykEB3c8=",
+  "dgSpecHash": "DDgyqTCO1Kg=",
   "success": true,
   "projectFilePath": "C:\\Users\\kened\\Documents\\Programação\\C#\\SP_MG\\trabalho_banco_de_dados2\\API\\SpMedicalGroup\\SpMedicalGroup\\SpMedicalGroup.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\kened\\.nuget\\packages\\awssdk.core\\3.7.400.70\\awssdk.core.3.7.400.70.nupkg.sha512",
+    "C:\\Users\\kened\\.nuget\\packages\\awssdk.s3\\3.7.410.12\\awssdk.s3.3.7.410.12.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",

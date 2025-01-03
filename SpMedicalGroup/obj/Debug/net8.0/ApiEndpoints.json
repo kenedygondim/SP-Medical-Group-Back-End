@@ -312,9 +312,74 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "novoPaciente",
-        "Type": "SpMedicalGroup.Dto.Paciente.PerfilCompletoPacienteDto",
-        "IsRequired": true
+        "Name": "NomeCompleto",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "DataNascimento",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rg",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Senha",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Cep",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Logradouro",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Numero",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Bairro",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Municipio",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Uf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Complemento",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FotoPerfilFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "SpMedicalGroup/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.7.410.12",
           "Dapper": "2.1.35",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.0",
@@ -17,6 +18,25 @@
         },
         "runtime": {
           "SpMedicalGroup.dll": {}
+        }
+      },
+      "AWSSDK.Core/3.7.400.70": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.400.70"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.410.12": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.400.70"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.410.12"
+          }
         }
       },
       "Azure.Core/1.38.0": {
@@ -690,6 +710,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/3.7.400.70": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-S0mcK1Bqa8xVh9UU+Rg9VEdjHfD2B75WRtBmh4ANTelUcTThG7T/ujNjxLXhzZQKW2j1V+KHUEViW4+OLB4Vkg==",
+      "path": "awssdk.core/3.7.400.70",
+      "hashPath": "awssdk.core.3.7.400.70.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.410.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZTMqFLboGilRNnKdSM7+0Jz4GGjE6dlZcQhOHXedMrudXHrFL/8Rlf0cOvsZaHKc5ljVxzauW6gm2Yezqfk8cw==",
+      "path": "awssdk.s3/3.7.410.12",
+      "hashPath": "awssdk.s3.3.7.410.12.nupkg.sha512"
     },
     "Azure.Core/1.38.0": {
       "type": "package",
