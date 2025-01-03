@@ -43,8 +43,7 @@ namespace SpMedicalGroup.Controllers
         //}
 
         [HttpPost("Cadastrar")]
-        [Authorize(Roles = "1")]
-        public async Task<IActionResult> Cadastrar(PerfilCompletoPacienteDto novoPaciente)
+        public async Task<IActionResult> Cadastrar([FromForm] CadastroPacienteDto novoPaciente)
         {
             try
             {
@@ -78,7 +77,7 @@ namespace SpMedicalGroup.Controllers
         {
             try
             {
-                PerfilCompletoPacienteDto paciente = await pacienteService.PerfilCompletoPaciente(email);
+                PerfilPacienteDto paciente = await pacienteService.PerfilCompletoPaciente(email);
                 return Ok(paciente);
             }
             catch (Exception ex)
