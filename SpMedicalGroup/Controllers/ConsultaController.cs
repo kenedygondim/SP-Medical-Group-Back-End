@@ -101,5 +101,20 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("MarcarConsultaComoConcluida")]
+        [Authorize(Roles = "2,3")]
+        public async Task<IActionResult> MarcarConsultaComoConcluida([FromQuery] int consultaId)
+        {
+            try
+            {
+                await consultaService.MarcarConsultaComoConcluida(consultaId);
+                return StatusCode(204, "Consulta marcada como concluída com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
