@@ -95,6 +95,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
+    "Method": "MarcarConsultaComoConcluida",
+    "RelativePath": "api/Consulta/MarcarConsultaComoConcluida",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "consultaId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
     "Method": "Adicionar",
     "RelativePath": "api/Disponibilidade/adicionar",
