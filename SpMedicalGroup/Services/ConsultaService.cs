@@ -19,7 +19,10 @@ namespace SpMedicalGroup.Services
                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
+                join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+                join ftp in ctx.FotosPerfil on pac.FotoPerfilId equals ftp.FotoPerfilId
                 join medEsp in ctx.MedicosEspecialidades
                     on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
@@ -28,14 +31,24 @@ namespace SpMedicalGroup.Services
                 {
                     ConsultaId = con.ConsultaId,
                     NomePaciente = pac.NomeCompleto,
+                    fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",    
                     CpfPaciente = pac.Cpf,
+                    Descricao = con.Descricao,
                     NomeMedico = med.NomeCompleto,
                     Especialidade = esp.Nome,
                     DataConsulta = dis.DataDisp,
                     HoraInicio = dis.HoraInicio,
                     HoraFim = dis.HoraFim,
                     Preco = medEsp.ValorProcedimento,
-                    Situacao = con.Situacao
+                    Situacao = con.Situacao,
+                    IsTelemedicina = con.IsTelemedicina,
+                    Cep = end.Cep,
+                    Uf = end.Uf,
+                    Municipio = end.Municipio,
+                    Bairro = end.Bairro,
+                    Logradouro = end.Logradouro,
+                    Numero = end.Numero,
+                    Complemento = end.Complemento ?? ""
                 }).ToListAsync();
 
             return consultasMedico;
@@ -149,6 +162,17 @@ namespace SpMedicalGroup.Services
             ctx.Consulta.Remove(consulta);
             await ctx.SaveChangesAsync();
             return "Cancelada com sucesso!";
+        }
+
+        public async Task<string> MarcarConsultaComoConcluida(int consultaId)
+        {
+            var consulta = await ctx.Consulta
+                .Where(c => c.ConsultaId == consultaId)
+                .FirstOrDefaultAsync() ?? throw new Exception("Consulta não encontrada");
+            consulta.Situacao = "Concluída";
+            ctx.Consulta.Update(consulta);
+            await ctx.SaveChangesAsync();
+            return "Consulta marcada como concluída!";
         }
     }
 }
