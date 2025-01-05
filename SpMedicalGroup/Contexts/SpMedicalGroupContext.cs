@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SpMedicalGroup.Dto.Consulta;
 using SpMedicalGroup.Dto.Disponibilidade;
 using SpMedicalGroup.Dto.Especialidade;
+using SpMedicalGroup.Dto.FotoPerfil;
 using SpMedicalGroup.Dto.Medico;
 using SpMedicalGroup.Dto.Paciente;
 using SpMedicalGroup.Dto.Usuario;
@@ -60,6 +61,7 @@ namespace SpMedicalGroup.Contexts
             modelBuilder.Entity<ConfirmarConsultaDetalhesDto>().HasNoKey();
             modelBuilder.Entity<AgendarConsultaDto>().HasNoKey();
             modelBuilder.Entity<CadastroPacienteDto>().HasNoKey();
+            modelBuilder.Entity<AlterarFotoPerfilDto>().HasNoKey();
 
 
             modelBuilder.Entity<Role>(entity =>
