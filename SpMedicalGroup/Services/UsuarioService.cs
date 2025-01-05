@@ -22,10 +22,14 @@ namespace SpMedicalGroup.Services
             return usuario;
         }
 
-
         public async Task<Usuario> Login(string email, string senha)
         {
             return await ctx.Usuarios.FirstOrDefaultAsync(u => u.Email == email && u.Senha == senha) ?? throw new Exception("Usuário não encontrado.");
+        }
+
+        public async Task<Usuario> GetUsuarioByEmail(string email)
+        {
+            return await ctx.Usuarios.FirstOrDefaultAsync(u => u.Email == email) ?? throw new Exception("Usuário não encontrado.");
         }
     }
 }
