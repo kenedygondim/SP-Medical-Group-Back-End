@@ -30,7 +30,7 @@ namespace SpMedicalGroup.Controllers
         {
             try
             {
-                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data);
+                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data, true);
                 return StatusCode(200, disponibilidades);
             }
             catch (Exception ex) {
