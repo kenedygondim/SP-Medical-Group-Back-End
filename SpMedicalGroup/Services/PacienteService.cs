@@ -15,29 +15,15 @@ namespace SpMedicalGroup.Services
         private readonly UsuarioService usuarioService = new();
         private readonly S3Service s3Service = new();
 
-        //public async Task<List<InfoBasicasPaciente>> ListarPacientesMedico(string emailUsuario)
-        //{
-        //    string cpfMedico = await MedicoService.BuscaCpfMedicoPorEmail(emailUsuario);
+        public async Task<Paciente> GetPacienteByEmail(string email)
+        {
+            return await
+                (from usu in ctx.Usuarios
+                 join pac in ctx.Pacientes on usu.UsuarioId equals pac.UsuarioId
+                 where usu.Email == email
+                 select pac).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
+        }
 
-        //    var pacientesMedico = await
-        //        (from pac in ctx.Pacientes
-        //         join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-        //         join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-        //         join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-        //         join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-        //         join medEsp in ctx.MedicosEspecialidades
-        //             on new { CpfMedico = med.Cpf, EspecialidadeId = esp.EspecialidadeId }
-        //             equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-        //         where med.Cpf == cpfMedico
-        //         select new InfoBasicasPaciente
-        //         {
-        //             Cpf = pac.Cpf,
-        //             NomeCompleto = pac.NomeCompleto,
-
-        //         }).ToListAsync();
-
-        //    return pacientesMedico;
-        //}
 
         public static async Task<string> BuscaCpfPacientePorEmail(string email)
         {
@@ -102,7 +88,7 @@ namespace SpMedicalGroup.Services
                         FotoPerfilUrl = urlAws
                     };
 
-                    FotoPerfil FotoPerfilCriado = await fotoPerfilService.cadastrarFotoPerfil(fotoPerfil);
+                    FotoPerfil FotoPerfilCriado = await fotoPerfilService.CadastrarFotoPerfil(fotoPerfil);
 
                     paciente.FotoPerfilId = FotoPerfilCriado.FotoPerfilId;
                 }
