@@ -2,77 +2,84 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Consulta;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class ConsultaService
+    public class ConsultaService : IConsultaService
     {
 
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+        private readonly IPacienteService pacienteService;
+
+        public ConsultaService(SpMedicalGroupContext ctx, IPacienteService pacienteService)
+        {
+            this.ctx = ctx;
+            this.pacienteService = pacienteService;
+        }
 
         public async Task<List<ConsultaDetalhadaDto>> ListarTodosConsultasMedico(string emailMedico)
         {
-            var cpfMedico = await MedicoService.BuscaCpfMedicoPorEmail(emailMedico) ?? throw new Exception();
-
-            var consultasMedico = await 
+            var consultasMedico = await
                 (from pac in ctx.Pacientes
-                join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-                join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-                join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-                join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
-                join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-                join ftp in ctx.FotosPerfil on pac.FotoPerfilId equals ftp.FotoPerfilId
-                join medEsp in ctx.MedicosEspecialidades
-                    on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
-                    equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-                where med.Cpf == cpfMedico
-                select new ConsultaDetalhadaDto
-                {
-                    ConsultaId = con.ConsultaId,
-                    NomePaciente = pac.NomeCompleto,
-                    fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",    
-                    CpfPaciente = pac.Cpf,
-                    Descricao = con.Descricao,
-                    NomeMedico = med.NomeCompleto,
-                    Especialidade = esp.Nome,
-                    DataConsulta = dis.DataDisp,
-                    HoraInicio = dis.HoraInicio,
-                    HoraFim = dis.HoraFim,
-                    Preco = medEsp.ValorProcedimento,
-                    Situacao = con.Situacao,
-                    IsTelemedicina = con.IsTelemedicina,
-                    Cep = end.Cep,
-                    Uf = end.Uf,
-                    Municipio = end.Municipio,
-                    Bairro = end.Bairro,
-                    Logradouro = end.Logradouro,
-                    Numero = end.Numero,
-                    Complemento = end.Complemento ?? ""
-                }).ToListAsync();
+                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
+                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
+                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
+                 join usu in ctx.Usuarios on med.UsuarioId equals usu.UsuarioId
+                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
+                 join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
+                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
+                 join ftp in ctx.FotosPerfil on pac.FotoPerfilId equals ftp.FotoPerfilId
+                 join medEsp in ctx.MedicosEspecialidades
+                     on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
+                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
+                 where usu.Email == emailMedico
+                 select new ConsultaDetalhadaDto
+                 {
+                     ConsultaId = con.ConsultaId,
+                     NomePaciente = pac.NomeCompleto,
+                     fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",
+                     CpfPaciente = pac.Cpf,
+                     Descricao = con.Descricao,
+                     NomeMedico = med.NomeCompleto,
+                     Especialidade = esp.Nome,
+                     DataConsulta = dis.DataDisp,
+                     HoraInicio = dis.HoraInicio,
+                     HoraFim = dis.HoraFim,
+                     Preco = medEsp.ValorProcedimento,
+                     Situacao = con.Situacao,
+                     IsTelemedicina = con.IsTelemedicina,
+                     Cep = end.Cep,
+                     Uf = end.Uf,
+                     Municipio = end.Municipio,
+                     Bairro = end.Bairro,
+                     Logradouro = end.Logradouro,
+                     Numero = end.Numero,
+                     Complemento = end.Complemento ?? ""
+                 }).ToListAsync();
 
             return consultasMedico;
         }
 
-        public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade) 
+        public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
         {
-            var consultaDetalhes = await 
+            var consultaDetalhes = await
                 (from medEsp in ctx.MedicosEspecialidades
-                join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
-                join med in ctx.Medicos on medEsp.CpfMedico equals med.Cpf
-                join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                join ende in ctx.Enderecos on emp.EnderecoId equals ende.EnderecoId
-                where med.Cpf == cpf && esp.Nome == nomeEspecialidade
-                select new ConfirmarConsultaDetalhesDto
-                {
-                    ValorConsulta = medEsp.ValorProcedimento,
-                    NomeEmpresa = emp.NomeFantasia,
-                    Municipio = ende.Municipio,
-                    Bairro = ende.Bairro,
-                    Logradouro = ende.Logradouro,
-                    Numero = ende.Numero,
-                    Complemento = ende.Complemento ?? ""
-                }).FirstOrDefaultAsync() ?? throw new Exception();
+                 join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
+                 join med in ctx.Medicos on medEsp.CpfMedico equals med.Cpf
+                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
+                 join ende in ctx.Enderecos on emp.EnderecoId equals ende.EnderecoId
+                 where med.Cpf == cpf && esp.Nome == nomeEspecialidade
+                 select new ConfirmarConsultaDetalhesDto
+                 {
+                     ValorConsulta = medEsp.ValorProcedimento,
+                     NomeEmpresa = emp.NomeFantasia,
+                     Municipio = ende.Municipio,
+                     Bairro = ende.Bairro,
+                     Logradouro = ende.Logradouro,
+                     Numero = ende.Numero,
+                     Complemento = ende.Complemento ?? ""
+                 }).FirstOrDefaultAsync() ?? throw new Exception();
 
             return consultaDetalhes;
         }
@@ -84,7 +91,7 @@ namespace SpMedicalGroup.Services
             if (!disponibilidadeUtilizavel)
                 throw new Exception("Disponibilidade já preenchida");
 
-            string cpfPaciente = await PacienteService.BuscaCpfPacientePorEmail(novaConsulta.EmailPaciente) ?? throw new Exception();
+            string cpfPaciente = await pacienteService.BuscaCpfPacientePorEmail(novaConsulta.EmailPaciente) ?? throw new Exception();
 
             Consulta consultaCriada = new()
             {
@@ -102,7 +109,7 @@ namespace SpMedicalGroup.Services
             return consultaCriada;
         }
 
-        public async Task<bool> VerificaDisponibilidadeJaPreenchida (int disponibilidadeId)
+        public async Task<bool> VerificaDisponibilidadeJaPreenchida(int disponibilidadeId)
         {
             return await ctx.Consulta
                 .Where(c => c.DisponibilidadeId == disponibilidadeId)
@@ -111,8 +118,8 @@ namespace SpMedicalGroup.Services
 
         public async Task<List<ConsultaDetalhadaDto>> ListarTodasConsultasPaciente(string email)
         {
-            string cpfPaciente = await PacienteService.BuscaCpfPacientePorEmail(email) ?? throw new Exception();
-            
+            string cpfPaciente = await pacienteService.BuscaCpfPacientePorEmail(email) ?? throw new Exception();
+
             var consultasPaciente = await
                 (from pac in ctx.Pacientes
                  join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
@@ -149,12 +156,12 @@ namespace SpMedicalGroup.Services
                      Numero = end.Numero,
                      Complemento = end.Complemento ?? ""
                  }).ToListAsync();
-                
+
 
             return consultasPaciente;
         }
 
-        public async Task<string> CancelarConsulta (int consultaId)
+        public async Task<string> CancelarConsulta(int consultaId)
         {
             var consulta = await ctx.Consulta
                 .Where(c => c.ConsultaId == consultaId)

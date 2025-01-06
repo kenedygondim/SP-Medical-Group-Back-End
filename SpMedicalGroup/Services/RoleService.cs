@@ -1,12 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class RoleService
+    public class RoleService  : IRoleService
     {
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public RoleService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
+
         public async Task<Role> Cadastrar(Role novaRole)
         {
 

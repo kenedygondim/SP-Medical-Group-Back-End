@@ -1,12 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class EmpresaService
+    public class EmpresaService : IEmpresaService
     {
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public EmpresaService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
+
         public async Task<Empresa> Cadastrar(Empresa novaEmpresa)
         {
             await ctx.Empresas.AddAsync(novaEmpresa);

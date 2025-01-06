@@ -4,16 +4,28 @@ using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Paciente;
 using Microsoft.IdentityModel.Tokens;
 using SpMedicalGroup.Services.AWS;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class PacienteService
+    public class PacienteService : IPacienteService
     {
-        private static readonly SpMedicalGroupContext ctx = new();
-        private readonly EnderecoService enderecoService = new();
-        private readonly FotoPerfilService fotoPerfilService = new();
-        private readonly UsuarioService usuarioService = new();
-        private readonly S3Service s3Service = new();
+        private readonly SpMedicalGroupContext ctx;
+        private readonly IEnderecoService enderecoService;
+        private readonly IFotoPerfilService fotoPerfilService;
+        private readonly IUsuarioService usuarioService;
+        private readonly S3Service s3Service;
+
+
+        public PacienteService(SpMedicalGroupContext ctx, IEnderecoService enderecoService, IFotoPerfilService fotoPerfilService, IUsuarioService usuarioService, S3Service s3Service)
+        {
+            this.ctx = ctx;
+            this.enderecoService = enderecoService;
+            this.fotoPerfilService = fotoPerfilService;
+            this.usuarioService = usuarioService;
+            this.s3Service = s3Service;
+        }
+
 
         public async Task<Paciente> GetPacienteByEmail(string email)
         {
@@ -25,7 +37,7 @@ namespace SpMedicalGroup.Services
         }
 
 
-        public static async Task<string> BuscaCpfPacientePorEmail(string email)
+        public async Task<string> BuscaCpfPacientePorEmail(string email)
         {
             var cpfPaciente = await
             (from tb_usuarios in ctx.Usuarios

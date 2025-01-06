@@ -1,13 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
+using SpMedicalGroup.Repositories;
 
 
 namespace SpMedicalGroup.Services
 {
-    public class UsuarioService
+    public class UsuarioService : IUsuarioService
     {
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public UsuarioService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
 
         public async Task<List<Usuario>> ListarTodos()
         {

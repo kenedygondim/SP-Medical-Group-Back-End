@@ -2,12 +2,18 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Disponibilidade;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class DisponibilidadeService
+    public class DisponibilidadeService : IDisponibilidadeService
     {
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public DisponibilidadeService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
 
         public async Task<Disponibilidade> AdicionarDisponibilidade(CriarDisponibilidadeDto novaDisponibilidade)
         {

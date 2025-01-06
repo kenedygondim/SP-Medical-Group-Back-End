@@ -3,13 +3,19 @@ using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Medico;
 using SpMedicalGroup.Dto.Paciente;
+using SpMedicalGroup.Repositories;
 
 
 namespace SpMedicalGroup.Services
 {
-    public class MedicoService
+    public class MedicoService : IMedicoService
     {
-        private static readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public MedicoService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
 
         public async Task<InformacoesMedicoPopUp> InformacoesMedicoEspecifico(string cpfMedico)
         {
@@ -79,7 +85,7 @@ namespace SpMedicalGroup.Services
             return await query.ToListAsync();
         }
 
-        public static async Task<string> BuscaCpfMedicoPorEmail(string email)
+        public async Task<string> BuscaCpfMedicoPorEmail(string email)
         {
             var cpfMedico = await
             (from tb_usuarios in ctx.Usuarios

@@ -2,12 +2,18 @@
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Dto.Especialidade;
 using SpMedicalGroup.Models;
+using SpMedicalGroup.Repositories;
 
 namespace SpMedicalGroup.Services
 {
-    public class EspecialidadeService
+    public class EspecialidadeService : IEspecialidadeService
     {
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly SpMedicalGroupContext ctx;
+
+        public EspecialidadeService(SpMedicalGroupContext ctx)
+        {
+            this.ctx = ctx;
+        }
 
         public async Task<List<IdNomeEspecialidadeDto>> ObterEspecialidadesMedico(string cpf)
         {
