@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\**" />
+    <Compile Remove="Repositories\NovaPasta\**" />
     <Content Remove="Migrations\**" />
+    <Content Remove="Repositories\NovaPasta\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Repositories\NovaPasta\**" />
     <None Remove="Migrations\**" />
+    <None Remove="Repositories\NovaPasta\**" />
   </ItemGroup>
 
   <ItemGroup>

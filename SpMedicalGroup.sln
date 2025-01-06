@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpMedicalGroup", "SpMedicalGroup\SpMedicalGroup.csproj", "{69DF6571-ADBA-4781-863B-5BF952B9A285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpMedicalGroup", "SpMedicalGroup\SpMedicalGroup.csproj", "{69DF6571-ADBA-4781-863B-5BF952B9A285}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCBD2A8E-9673-4A28-8E46-32B191F31805}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

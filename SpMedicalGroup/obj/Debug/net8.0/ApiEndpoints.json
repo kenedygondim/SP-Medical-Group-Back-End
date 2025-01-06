@@ -200,6 +200,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SpMedicalGroup.Controllers.FotoPerfilController",
+    "Method": "AlterarFotoPerfil",
+    "RelativePath": "api/FotoPerfil/AlterarFotoPerfil",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novaFotoPerfil",
+        "Type": "SpMedicalGroup.Dto.FotoPerfil.AlterarFotoPerfilDto",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/Login",
