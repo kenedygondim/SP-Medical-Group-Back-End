@@ -16,7 +16,19 @@ namespace SpMedicalGroup.Services.AWS
         public S3Service()
         {
             // O AWS SDK usará automaticamente o arquivo de credenciais padrão
-            _s3Client = new AmazonS3Client(Amazon.RegionEndpoint.GetBySystemName(_region));
+            try
+            {
+                _s3Client = new AmazonS3Client(Amazon.RegionEndpoint.GetBySystemName(_region));
+
+                if (_s3Client == null)
+                {
+                    throw new Exception("erro");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
