@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -10,10 +12,15 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly RoleService RoleService = new();
+        private readonly IRoleService RoleService;
 
-        [Authorize(Roles = "1, 2, 3")]
+        public RoleController(IRoleService RoleService)
+        {
+            this.RoleService = RoleService;
+        }
+
         [HttpGet("ListarTodos")]
+        [Authorize(Roles="3")]
         public async Task<IActionResult> ListarTodos()
         {
             try
@@ -27,8 +34,8 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [Authorize(Roles = "3")]
         [HttpPost("cadastrar")]
+        [Authorize(Roles = "3")]
         public async Task<IActionResult> Cadastrar(Role novoRole)
         {
             try

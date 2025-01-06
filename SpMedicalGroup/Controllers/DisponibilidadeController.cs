@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Dto.Disponibilidade;
+using SpMedicalGroup.Repositories;
 using SpMedicalGroup.Services;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -9,9 +12,15 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class DisponibilidadeController : ControllerBase
     {
-        private readonly DisponibilidadeService disponibilidadeService = new();
+        private readonly IDisponibilidadeService disponibilidadeService;
+
+        public DisponibilidadeController(IDisponibilidadeService disponibilidadeService)
+        {
+            this.disponibilidadeService = disponibilidadeService;
+        }
 
         [HttpPost("adicionar")]
+        [Authorize(Roles="2")]
         public async Task<IActionResult> Adicionar(CriarDisponibilidadeDto novaDisponibilidade)
         {
             try
@@ -26,6 +35,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("listarDisponibilidadesMedicoPorData")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
         {
             try

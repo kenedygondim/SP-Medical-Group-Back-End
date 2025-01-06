@@ -8,6 +8,8 @@ using SpMedicalGroup.Services;
 using SpMedicalGroup.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -16,15 +18,21 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly UsuarioService usuarioService = new();
-        private readonly SpMedicalGroupContext ctx = new();
+        private readonly IUsuarioService usuarioService;
+        private readonly SpMedicalGroupContext ctx;
+
+        public LoginController(IUsuarioService usuarioService, SpMedicalGroupContext ctx)
+        {
+            this.usuarioService = usuarioService;
+            this.ctx = ctx;
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             try
             {
-                Log.Information("Iniciando login...");
+                Log.Information("\n\n\nIniciando login...\n\n\n");
                 Usuario usuarioBuscado = await usuarioService.Login(login.Email, login.Senha);
 
                 if (usuarioBuscado == null)

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Paciente;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -11,7 +13,13 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class PacienteController : ControllerBase
     {
-        private readonly PacienteService pacienteService = new();
+        private readonly IPacienteService pacienteService;
+
+        public PacienteController(IPacienteService pacienteService)
+        {
+            this.pacienteService = pacienteService;
+        }
+
 
         [HttpGet("Acessar")]
         [Authorize(Roles = "1")]
@@ -99,7 +107,5 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
     }
 }

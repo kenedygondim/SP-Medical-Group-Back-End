@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Dto.FotoPerfil;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -9,9 +12,15 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class FotoPerfilController : ControllerBase
     {
-        private readonly FotoPerfilService fotoPerfilService = new();
+        private readonly IFotoPerfilService fotoPerfilService;
+
+        public FotoPerfilController(IFotoPerfilService fotoPerfilService)
+        {
+            this.fotoPerfilService = fotoPerfilService;
+        }
 
         [HttpPut("AlterarFotoPerfil")]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> AlterarFotoPerfil([FromForm] AlterarFotoPerfilDto novaFotoPerfil)
         {
             try

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Dto.Consulta;
 using SpMedicalGroup.Models;
+using SpMedicalGroup.Repositories;
 using SpMedicalGroup.Services;
 
 namespace SpMedicalGroup.Controllers
@@ -11,7 +12,12 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class ConsultaController : ControllerBase
     {
-        private readonly ConsultaService consultaService = new();
+        private readonly IConsultaService consultaService;
+
+        public ConsultaController(IConsultaService consultaService)
+        {
+            this.consultaService = consultaService;
+        }
 
         [HttpGet("ListarTodosConsultasMedico")]
         [Authorize(Roles = "2")]
@@ -29,7 +35,6 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("ConfirmarConsultaDetalhes")]
-        [Authorize(Roles = "1")]
         public async Task<IActionResult> ConfirmarConsultaDetalhes([FromQuery] string cpf, [FromQuery] string nomeEspecialidade)
         {
             try
@@ -44,7 +49,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("Acessar")]
-        [Authorize(Roles = "1,2")]
+        [Authorize(Roles = "1")]
         public IActionResult Acessar()
         {
             try
@@ -68,12 +73,12 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { mensagem = "Não foi possível agendar consulta. Tente novamente!", detalhes = ex.Message});
+                return BadRequest(new { mensagem = "Não foi possível agendar consulta. Tente novamente!", detalhes = ex.Message });
             }
         }
 
         [HttpGet("ListarTodasConsultasPaciente")]
-        [Authorize(Roles = "1")]
+        [Authorize(Roles ="1")]
         public async Task<IActionResult> ListarTodasConsultasPaciente([FromQuery] string email)
         {
             try
@@ -88,7 +93,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpDelete("CancelarConsulta")]
-        [Authorize(Roles = "1,2,3")]
+        [Authorize(Roles = "1, 2")]
         public async Task<IActionResult> CancelarConsulta([FromQuery] int consultaId)
         {
             try
@@ -103,7 +108,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpPut("MarcarConsultaComoConcluida")]
-        [Authorize(Roles = "2,3")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> MarcarConsultaComoConcluida([FromQuery] int consultaId)
         {
             try

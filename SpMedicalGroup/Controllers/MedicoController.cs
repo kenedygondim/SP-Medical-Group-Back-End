@@ -4,6 +4,8 @@ using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Medico;
 using SpMedicalGroup.Services;
 using SpMedicalGroup.Dto.Paciente;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -12,7 +14,12 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class MedicoController : ControllerBase
     {
-        private readonly MedicoService medicoService = new();
+        private readonly IMedicoService medicoService;
+
+        public MedicoController(IMedicoService medicoService)
+        {
+            this.medicoService = medicoService;
+        }
 
 
         [HttpGet("InformacoesMedicoEspecifico")]
@@ -30,7 +37,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("Acessar")]
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1")]
         public IActionResult Acessar()
         {
             try
@@ -72,6 +79,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("InfoBasicasUsuario")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> RetornarInfoBasicasUsuario([FromQuery] string email)
         {
             try

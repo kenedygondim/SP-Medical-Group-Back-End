@@ -2,6 +2,8 @@
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Especialidade;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -10,7 +12,12 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class EspecialidadeController : ControllerBase
     {
-        private readonly EspecialidadeService especialidadeService = new();
+        private readonly IEspecialidadeService especialidadeService;
+
+        public EspecialidadeController(IEspecialidadeService especialidadeService)
+        {
+            this.especialidadeService = especialidadeService;
+        }
 
         [HttpGet("obterEspecialidadesMedico")]
         public async Task<IActionResult> ObterEspecialidadesMedico([FromQuery] string cpf)

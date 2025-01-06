@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Services;
+using SpMedicalGroup.Repositories;
+
 
 namespace SpMedicalGroup.Controllers
 {
@@ -10,9 +12,13 @@ namespace SpMedicalGroup.Controllers
     [ApiController]
     public class EmpresaController : ControllerBase
     {
-        private readonly EmpresaService empresaService = new();
+        private readonly IEmpresaService empresaService;
 
-        [Authorize(Roles = "1, 2, 3")]
+        public EmpresaController(IEmpresaService empresaService)
+        {
+            this.empresaService = empresaService;
+        }
+
         [HttpGet("ListarTodos")]
         public async Task<IActionResult> ListarTodas()
         {
@@ -27,8 +33,8 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [Authorize(Roles = "3")]
         [HttpPost("Cadastrar")]
+        [Authorize(Roles = "3")]
         public async Task<IActionResult> Cadastrar(Empresa novaEmpresa)
         {
             try
