@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Consulta
 {
-    public class ConfirmarConsultaDetalhesDto
+    public record ConfirmarConsultaDetalhesDto
     {
         public decimal ValorConsulta { get; set; }
         public string NomeEmpresa { get; set; } = string.Empty;

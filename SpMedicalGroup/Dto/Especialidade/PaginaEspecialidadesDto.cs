@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Especialidade
 {
-    public class PaginaEspecialidadesDto
+    public record PaginaEspecialidadesDto
     {
         public string Especialidade { get; set; } = string.Empty;
         public string Descricao { get; set; } = string.Empty;

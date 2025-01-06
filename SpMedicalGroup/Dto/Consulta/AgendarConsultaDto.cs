@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Consulta
 {
-    public class AgendarConsultaDto
+    public record AgendarConsultaDto
     {
         public required int DisponibilidadeId { get; set; }
         public required int EspecialidadeId { get; set; }

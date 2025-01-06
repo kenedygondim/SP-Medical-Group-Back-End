@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Paciente
 {
-    public class InfoBasicasUsuario
+    public record InfoBasicasUsuario
     {
         public required string Cpf { get; set; }
         public required string NomeCompleto { get; set; }

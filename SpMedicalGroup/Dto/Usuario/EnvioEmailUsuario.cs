@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Usuario
 {
-    public class EnvioEmailUsuario
+    public record EnvioEmailUsuario
     {
         public required string Email { get; set; }
     }

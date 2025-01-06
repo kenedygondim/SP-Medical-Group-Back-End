@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Consulta
 {
-    public class ConsultaDetalhadaDto
+    public record ConsultaDetalhadaDto
     {
         public required int ConsultaId { get; set; }
         public string NomePaciente { get; set; } = string.Empty;

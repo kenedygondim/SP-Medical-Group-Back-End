@@ -2,7 +2,7 @@
 
 namespace SpMedicalGroup.Dto.Paciente
 {
-    public class CadastroPacienteDto
+    public record CadastroPacienteDto
     {
         public required string NomeCompleto { get; set; }
         public required string DataNascimento { get; set; } = string.Empty;

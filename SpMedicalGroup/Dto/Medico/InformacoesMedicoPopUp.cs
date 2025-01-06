@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Medico
 {
-    public class InformacoesMedicoPopUp
+    public record InformacoesMedicoPopUp
     {
         public string Cpf { get; set; } = string.Empty;
         public string NomeCompleto { get; set; } = string.Empty;

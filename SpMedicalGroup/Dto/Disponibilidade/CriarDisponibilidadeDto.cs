@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Disponibilidade
 {
-    public class CriarDisponibilidadeDto
+    public record CriarDisponibilidadeDto
     {
         public required string EmailMedico { get; set; }
         public required string DataDisp { get; set; }

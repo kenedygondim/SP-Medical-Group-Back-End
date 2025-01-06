@@ -1,6 +1,6 @@
 ﻿namespace SpMedicalGroup.Dto.Medico
 {
-    public class PerfilCompletoMedicoDto
+    public record PerfilCompletoMedicoDto
     {
         public string NomeCompleto { get; set; } = string.Empty;
         public string DataNascimento { get; set; } = string.Empty;
