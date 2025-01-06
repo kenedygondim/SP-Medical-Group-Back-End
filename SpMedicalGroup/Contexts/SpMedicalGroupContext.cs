@@ -15,15 +15,9 @@ namespace SpMedicalGroup.Contexts
 {
     public partial class SpMedicalGroupContext : DbContext
     {
-        public SpMedicalGroupContext()
-        {
-        }
+        public SpMedicalGroupContext() { }
 
-        public SpMedicalGroupContext(DbContextOptions<SpMedicalGroupContext> options)
-            : base(options)
-        {
-        }
-
+        public SpMedicalGroupContext(DbContextOptions<SpMedicalGroupContext> options) : base(options) { }
 
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Endereco> Enderecos { get; set; }
@@ -37,32 +31,9 @@ namespace SpMedicalGroup.Contexts
         public virtual DbSet<Disponibilidade> Disponibilidades { get; set; }
         public virtual DbSet<Consulta> Consulta { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-N94GSUP;Database=SP_MEDICAL_GROUP;Trusted_Connection=True; TrustServerCertificate=True");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
-
-            modelBuilder.Entity<ConsultaDetalhadaDto>().HasNoKey();
-            modelBuilder.Entity<MedicoInformacoesCardDto>().HasNoKey();
-            modelBuilder.Entity<PaginaEspecialidadesDto>().HasNoKey();
-            modelBuilder.Entity<CriarDisponibilidadeDto>().HasNoKey();
-            modelBuilder.Entity<EnvioEmailUsuario>().HasNoKey();
-            modelBuilder.Entity<InfoBasicasUsuario>().HasNoKey();
-            modelBuilder.Entity<PerfilPacienteDto>().HasNoKey();
-            modelBuilder.Entity<InformacoesMedicoPopUp>().HasNoKey();
-            modelBuilder.Entity<IdNomeEspecialidadeDto>().HasNoKey();
-            modelBuilder.Entity<ConfirmarConsultaDetalhesDto>().HasNoKey();
-            modelBuilder.Entity<AgendarConsultaDto>().HasNoKey();
-            modelBuilder.Entity<CadastroPacienteDto>().HasNoKey();
-            modelBuilder.Entity<AlterarFotoPerfilDto>().HasNoKey();
-
 
             modelBuilder.Entity<Role>(entity =>
             {
