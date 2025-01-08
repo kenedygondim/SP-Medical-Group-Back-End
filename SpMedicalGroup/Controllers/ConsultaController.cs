@@ -49,7 +49,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("Acessar")]
-        [Authorize(Roles = "1")]
+        [Authorize(Roles = "1,2")]
         public IActionResult Acessar()
         {
             try

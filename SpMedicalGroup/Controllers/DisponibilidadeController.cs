@@ -35,7 +35,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpGet("listarDisponibilidadesMedicoPorData")]
-        [Authorize(Roles = "2")]
+        [Authorize(Roles = "1,2")]
         public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
         {
             try
