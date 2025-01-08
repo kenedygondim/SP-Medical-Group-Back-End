@@ -21,17 +21,27 @@ namespace SpMedicalGroup.Controllers
 
         [HttpPut("AlterarFotoPerfil")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> AlterarFotoPerfil([FromForm] AlterarFotoPerfilDto novaFotoPerfil)
+        public async Task<IActionResult> AlterarFotoPerfil([FromQuery] string email, [FromForm] IFormFile novaFotoPerfil)
         {
             try
             {
-                var fotoPerfilAlterada = await fotoPerfilService.AlterarFotoPerfil(novaFotoPerfil);
+                if (novaFotoPerfil == null)
+                    return BadRequest("DTO chegou nulo");
+
+                if (string.IsNullOrWhiteSpace(email))
+                    return BadRequest("Email está vazio");
+
+                if (novaFotoPerfil == null)
+                    return BadRequest("FotoPerfil está nula");
+
+                var fotoPerfilAlterada = await fotoPerfilService.AlterarFotoPerfil(email, novaFotoPerfil);
                 return StatusCode(200, fotoPerfilAlterada);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { mensagem = "Não foi possível alterar foto de perfil. Tente Novamente!", detalhes = ex.Message });
+                return BadRequest(new { mensagem = "Erro inesperado", detalhes = ex.Message });
             }
         }
+
     }
 }
