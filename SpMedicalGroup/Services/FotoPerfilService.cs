@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Dto.FotoPerfil;
 using SpMedicalGroup.Models;
@@ -27,18 +28,17 @@ namespace SpMedicalGroup.Services
             return fotoPerfil;
         }
 
-        public async Task<string> AlterarFotoPerfil(AlterarFotoPerfilDto novaFotoPerfil)
+        public async Task<string> AlterarFotoPerfil(string email, IFormFile novaFotoPerfil)
         {
+      
 
-            Console.WriteLine(novaFotoPerfil.ToString());
+            var usuario = await ctx.Usuarios.Where(u => u.Email == email).FirstOrDefaultAsync() ?? throw new Exception(novaFotoPerfil.ToString());
 
-            var usuario = await ctx.Usuarios.Where(u => u.Email == novaFotoPerfil.Email).FirstOrDefaultAsync() ?? throw new Exception(novaFotoPerfil.Email.ToString());
-
-            if (novaFotoPerfil.FotoPerfil == null)
+            if (novaFotoPerfil == null)
                 throw new Exception("Foto de perfil não informada.");
 
             var fileName = $"SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-{usuario.UsuarioId}";
-            using var stream = novaFotoPerfil.FotoPerfil.OpenReadStream();
+            using var stream = novaFotoPerfil.OpenReadStream();
             string urlAws = await s3Service.UploadFileAsync(stream, fileName);
 
             var paciente = await ctx.Pacientes.Where(p => p.UsuarioId == usuario.UsuarioId).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
