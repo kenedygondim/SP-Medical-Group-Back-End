@@ -78,7 +78,7 @@ namespace SpMedicalGroup.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = "Não foi possível realizar o login. Tente novamente!", detalhes = ex.Message });
             }
         }
     }
