@@ -11,11 +11,9 @@ Versão atual: 1.0.0
 
 ## 3. Criação do banco de dados
 
-#### Acesse o link abaixo e baixe a solução do SQL Server:
+#### Acesse o link abaixo e utilize comandos SQL no seu SGBD:
 
 ``` https://drive.google.com/drive/folders/14lHKQTPeHDbySkQ25PXw8ZFABi9lXSbo?usp=sharing ```
-
-#### Após baixar, entre na solução e execute os comandos de criação e os inserts (opcional)
 
 ## 4. Crie um bucket na Amazon Web Services
 
