@@ -16,7 +16,7 @@ namespace SpMedicalGroup.Dto.Paciente
         public required string Bairro { get; set; } = string.Empty;
         public required string Municipio { get; set; } = string.Empty;
         public required string Uf { get; set; } = string.Empty;
-        public string Complemento { get; set; } = string.Empty;
+        public string? Complemento { get; set; } = string.Empty;
 
         [NotMapped]
         public IFormFile? FotoPerfilFile { get; set; }
