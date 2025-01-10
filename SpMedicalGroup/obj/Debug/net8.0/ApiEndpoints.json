@@ -128,8 +128,45 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
+    "Method": "Excluir",
+    "RelativePath": "api/Disponibilidade/Excluir",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "disponibilidadeId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
     "Method": "ListarDisponibilidadesMedicoPorData",
     "RelativePath": "api/Disponibilidade/listarDisponibilidadesMedicoPorData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cpf",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "data",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
+    "Method": "ListarTodasDisponibilidadesMedicoPorData",
+    "RelativePath": "api/Disponibilidade/listarTodasDisponibilidadesMedicoPorData",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
