@@ -97,5 +97,15 @@ namespace SpMedicalGroup.Services
                 }
             }
         }
+
+        public async Task<Disponibilidade> ExcluirDisponibilidade(int disponibilidadeId)
+        {
+            Disponibilidade disponibilidade = await ctx.Disponibilidades.FindAsync(disponibilidadeId) ?? throw new Exception("Disponibilidade não encontrada");
+
+            ctx.Disponibilidades.Remove(disponibilidade);
+            await ctx.SaveChangesAsync();
+
+            return disponibilidade;
+        }
     }
 }

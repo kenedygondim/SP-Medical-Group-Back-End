@@ -34,6 +34,22 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
+        [HttpDelete("Excluir")]
+        [Authorize(Roles = "2")]
+        public async Task<IActionResult> Excluir([FromQuery] int disponibilidadeId)
+        {
+            try
+            {
+                var disponibilidadeCriada = await disponibilidadeService.ExcluirDisponibilidade(disponibilidadeId);
+                return StatusCode(204, "Disponibilidade excluída com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Não foi possível excluir disponibilidade. Tente Novamente!", detalhes = ex.Message });
+            }
+        }
+
+        // TO-DO: Alterar nome do endpoint e método
         [HttpGet("listarDisponibilidadesMedicoPorData")]
         [Authorize(Roles = "1,2")]
         public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
@@ -47,5 +63,22 @@ namespace SpMedicalGroup.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // TO-DO: Alterar nome do endpoint e método
+        [HttpGet("listarTodasDisponibilidadesMedicoPorData")]
+        [Authorize(Roles = "1,2")]
+        public async Task<IActionResult> ListarTodasDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
+        {
+            try
+            {
+                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data, false);
+                return StatusCode(200, disponibilidades);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
