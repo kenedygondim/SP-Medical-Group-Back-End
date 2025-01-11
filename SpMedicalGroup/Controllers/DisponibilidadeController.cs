@@ -19,7 +19,7 @@ namespace SpMedicalGroup.Controllers
             this.disponibilidadeService = disponibilidadeService;
         }
 
-        [HttpPost("adicionar")]
+        [HttpPost("postDisponibilidade")]
         [Authorize(Roles="2")]
         public async Task<IActionResult> Adicionar(CriarDisponibilidadeDto novaDisponibilidade)
         {
@@ -34,7 +34,7 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpDelete("Excluir")]
+        [HttpDelete("deleteDisponibilidade")]
         [Authorize(Roles = "2")]
         public async Task<IActionResult> Excluir([FromQuery] int disponibilidadeId)
         {
@@ -49,8 +49,7 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        // TO-DO: Alterar nome do endpoint e método
-        [HttpGet("listarDisponibilidadesMedicoPorData")]
+        [HttpGet("getDisponibilidadesNaoPreenchidas")]
         [Authorize(Roles = "1,2")]
         public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
         {
@@ -64,8 +63,7 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        // TO-DO: Alterar nome do endpoint e método
-        [HttpGet("listarTodasDisponibilidadesMedicoPorData")]
+        [HttpGet("getDisponibilidades")]
         [Authorize(Roles = "1,2")]
         public async Task<IActionResult> ListarTodasDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
         {
