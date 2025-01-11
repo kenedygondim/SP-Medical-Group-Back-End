@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpMedicalGroup")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5f4ab84cfd8c7366fb3ceaea72ca2c42b14ac1a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1bf755ac44fbceddc81db5bfaff2e591dad7d485")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpMedicalGroup")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpMedicalGroup")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

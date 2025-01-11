@@ -112,24 +112,8 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
-    "Method": "Adicionar",
-    "RelativePath": "api/Disponibilidade/adicionar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "novaDisponibilidade",
-        "Type": "SpMedicalGroup.Dto.Disponibilidade.CriarDisponibilidadeDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
     "Method": "Excluir",
-    "RelativePath": "api/Disponibilidade/Excluir",
+    "RelativePath": "api/Disponibilidade/deleteDisponibilidade",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -144,8 +128,8 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
-    "Method": "ListarDisponibilidadesMedicoPorData",
-    "RelativePath": "api/Disponibilidade/listarDisponibilidadesMedicoPorData",
+    "Method": "ListarTodasDisponibilidadesMedicoPorData",
+    "RelativePath": "api/Disponibilidade/getDisponibilidades",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -165,8 +149,8 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
-    "Method": "ListarTodasDisponibilidadesMedicoPorData",
-    "RelativePath": "api/Disponibilidade/listarTodasDisponibilidadesMedicoPorData",
+    "Method": "ListarDisponibilidadesMedicoPorData",
+    "RelativePath": "api/Disponibilidade/getDisponibilidadesNaoPreenchidas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -180,6 +164,22 @@
         "Name": "data",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.DisponibilidadeController",
+    "Method": "Adicionar",
+    "RelativePath": "api/Disponibilidade/postDisponibilidade",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "novaDisponibilidade",
+        "Type": "SpMedicalGroup.Dto.Disponibilidade.CriarDisponibilidadeDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
