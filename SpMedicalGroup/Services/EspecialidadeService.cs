@@ -33,22 +33,10 @@ namespace SpMedicalGroup.Services
 
         public async Task<List<PaginaEspecialidadesDto>> ListarInfoPaginaEspecialidades()
         {
-            var especialidadesInformacoes = await 
-                (from esp in ctx.Especialidades
-                join medEsp in ctx.MedicosEspecialidades on esp.EspecialidadeId equals medEsp.EspecialidadeId
-                join med in ctx.Medicos on medEsp.CpfMedico equals med.Cpf
-                group new { med, medEsp } by new { esp.Nome, esp.Descricao } into grouped
-                orderby grouped.Key.Nome
-                 select new PaginaEspecialidadesDto
-                {
-                    Especialidade = grouped.Key.Nome,
-                    Descricao = grouped.Key.Descricao,
-                    NumeroMedicos = grouped.Count(),
-                    PrecoMinimo = grouped.Min(g => g.medEsp.ValorProcedimento)
-                }).ToListAsync();
+            List<PaginaEspecialidadesDto> paginaEspecialidadesDtos = await 
+                ctx.Set<PaginaEspecialidadesDto>().FromSqlRaw("SELECT * FROM Especialidades_Cards").OrderBy(a => a.Especialidade).ToListAsync();
 
-
-            return especialidadesInformacoes;
+            return paginaEspecialidadesDtos;
         }
 
 
