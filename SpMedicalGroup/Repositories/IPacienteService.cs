@@ -5,7 +5,6 @@ namespace SpMedicalGroup.Repositories
 {
     public interface IPacienteService
     {
-        Task<Paciente> GetPacienteByEmail(string email);
         Task<string> BuscaCpfPacientePorEmail(string email);
         Task<Paciente> CadastrarPaciente(CadastroPacienteDto novoPaciente);
         Task<Paciente> AdicionarPaciente(Paciente paciente);

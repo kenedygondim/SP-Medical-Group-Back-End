@@ -27,16 +27,6 @@ namespace SpMedicalGroup.Services
         }
 
 
-        public async Task<Paciente> GetPacienteByEmail(string email)
-        {
-            return await
-                (from usu in ctx.Usuarios
-                 join pac in ctx.Pacientes on usu.UsuarioId equals pac.UsuarioId
-                 where usu.Email == email
-                 select pac).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");
-        }
-
-
         public async Task<string> BuscaCpfPacientePorEmail(string email)
         {
             var cpfPaciente = await
