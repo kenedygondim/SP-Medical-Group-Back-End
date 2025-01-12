@@ -18,7 +18,6 @@ namespace SpMedicalGroup.Contexts
         public SpMedicalGroupContext() { }
 
         public SpMedicalGroupContext(DbContextOptions<SpMedicalGroupContext> options) : base(options) { }
-
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Endereco> Enderecos { get; set; }
         public virtual DbSet<FotoPerfil> FotosPerfil { get; set; }
@@ -33,6 +32,12 @@ namespace SpMedicalGroup.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // <---- Para armazenar as saídas das Stored Procedures e Views ---------->
+            modelBuilder.Entity<ConsultaDetalhadaDto>().HasNoKey();
+            modelBuilder.Entity<ConfirmarConsultaDetalhesDto>().HasNoKey();
+            modelBuilder.Entity<PaginaEspecialidadesDto>().HasNoKey().ToView("Especialidades_Cards");
+            // < ------------------------------------------------------------->
+
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
             modelBuilder.Entity<Role>(entity =>
