@@ -20,68 +20,23 @@ namespace SpMedicalGroup.Services
 
         public async Task<List<ConsultaDetalhadaDto>> ListarTodosConsultasMedico(string emailMedico)
         {
-            var consultasMedico = await
-                (from pac in ctx.Pacientes
-                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-                 join usu in ctx.Usuarios on med.UsuarioId equals usu.UsuarioId
-                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                 join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
-                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-                 join ftp in ctx.FotosPerfil on pac.FotoPerfilId equals ftp.FotoPerfilId
-                 join medEsp in ctx.MedicosEspecialidades
-                     on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
-                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-                 where usu.Email == emailMedico
-                 select new ConsultaDetalhadaDto
-                 {
-                     ConsultaId = con.ConsultaId,
-                     NomePaciente = pac.NomeCompleto,
-                     fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",
-                     CpfPaciente = pac.Cpf,
-                     Descricao = con.Descricao,
-                     NomeMedico = med.NomeCompleto,
-                     Especialidade = esp.Nome,
-                     DataConsulta = dis.DataDisp,
-                     HoraInicio = dis.HoraInicio,
-                     HoraFim = dis.HoraFim,
-                     Preco = medEsp.ValorProcedimento,
-                     Situacao = con.Situacao,
-                     IsTelemedicina = con.IsTelemedicina,
-                     Cep = end.Cep,
-                     Uf = end.Uf,
-                     Municipio = end.Municipio,
-                     Bairro = end.Bairro,
-                     Logradouro = end.Logradouro,
-                     Numero = end.Numero,
-                     Complemento = end.Complemento ?? ""
-                 }).ToListAsync();
+
+            List<ConsultaDetalhadaDto> consultasMedico = 
+                await ctx.Set<ConsultaDetalhadaDto>()
+                .FromSql($"EXEC Consultas_Medico_By_Email {emailMedico}")
+                .ToListAsync();
 
             return consultasMedico;
         }
 
         public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
         {
-            var consultaDetalhes = await
-                (from medEsp in ctx.MedicosEspecialidades
-                 join esp in ctx.Especialidades on medEsp.EspecialidadeId equals esp.EspecialidadeId
-                 join med in ctx.Medicos on medEsp.CpfMedico equals med.Cpf
-                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                 join ende in ctx.Enderecos on emp.EnderecoId equals ende.EnderecoId
-                 where med.Cpf == cpf && esp.Nome == nomeEspecialidade
-                 select new ConfirmarConsultaDetalhesDto
-                 {
-                     ValorConsulta = medEsp.ValorProcedimento,
-                     NomeEmpresa = emp.NomeFantasia,
-                     Municipio = ende.Municipio,
-                     Bairro = ende.Bairro,
-                     Logradouro = ende.Logradouro,
-                     Numero = ende.Numero,
-                     Complemento = ende.Complemento ?? ""
-                 }).FirstOrDefaultAsync() ?? throw new Exception();
+            ConfirmarConsultaDetalhesDto confirmarConsultaDetalhes = 
+                await ctx.Set<ConfirmarConsultaDetalhesDto>()
+                .FromSql($"EXEC Preview_Detalhes_Consulta {cpf} {nomeEspecialidade}")
+                .FirstOrDefaultAsync() ?? throw new Exception("Médico ou especialidade não encontrada.");
 
-            return consultaDetalhes;
+            return confirmarConsultaDetalhes;
         }
 
         public async Task<Consulta> Agendar(AgendarConsultaDto novaConsulta)
@@ -116,47 +71,12 @@ namespace SpMedicalGroup.Services
                 .FirstOrDefaultAsync() == null;
         }
 
-        public async Task<List<ConsultaDetalhadaDto>> ListarTodasConsultasPaciente(string email)
+        public async Task<List<ConsultaDetalhadaDto>> ListarTodasConsultasPaciente(string emailPaciente)
         {
-            string cpfPaciente = await pacienteService.BuscaCpfPacientePorEmail(email) ?? throw new Exception();
-
-            var consultasPaciente = await
-                (from pac in ctx.Pacientes
-                 join con in ctx.Consulta on pac.Cpf equals con.CpfPaciente
-                 join dis in ctx.Disponibilidades on con.DisponibilidadeId equals dis.DisponibilidadeId
-                 join med in ctx.Medicos on dis.CpfMedico equals med.Cpf
-                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                 join end in ctx.Enderecos on emp.EnderecoId equals end.EnderecoId
-                 join esp in ctx.Especialidades on con.EspecialidadeId equals esp.EspecialidadeId
-                 join ftp in ctx.FotosPerfil on med.FotoPerfilId equals ftp.FotoPerfilId
-                 join medEsp in ctx.MedicosEspecialidades
-                     on new { CpfMedico = med.Cpf, esp.EspecialidadeId }
-                     equals new { medEsp.CpfMedico, medEsp.EspecialidadeId }
-                 where pac.Cpf == cpfPaciente
-                 select new ConsultaDetalhadaDto
-                 {
-                     ConsultaId = con.ConsultaId,
-                     NomePaciente = pac.NomeCompleto,
-                     CpfPaciente = pac.Cpf,
-                     NomeMedico = med.NomeCompleto,
-                     fotoPerfilUrl = ftp.FotoPerfilUrl ?? "",
-                     Especialidade = esp.Nome,
-                     Descricao = con.Descricao,
-                     DataConsulta = dis.DataDisp,
-                     HoraInicio = dis.HoraInicio,
-                     HoraFim = dis.HoraFim,
-                     Preco = medEsp.ValorProcedimento,
-                     Situacao = con.Situacao,
-                     IsTelemedicina = con.IsTelemedicina,
-                     Cep = end.Cep,
-                     Uf = end.Uf,
-                     Municipio = end.Municipio,
-                     Bairro = end.Bairro,
-                     Logradouro = end.Logradouro,
-                     Numero = end.Numero,
-                     Complemento = end.Complemento ?? ""
-                 }).ToListAsync();
-
+            List<ConsultaDetalhadaDto> consultasPaciente =
+                await ctx.Set<ConsultaDetalhadaDto>()
+                .FromSql($"EXEC Consultas_Paciente_By_Email {emailPaciente}")
+                .ToListAsync();
 
             return consultasPaciente;
         }
