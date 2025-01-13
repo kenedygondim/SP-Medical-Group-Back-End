@@ -52,7 +52,7 @@ Versão atual: 1.0.0
 
 #### a. Clone o repositório para sua máquina local.
 #### b. Configure a string de conexão com o banco de dados criado anteriormente no arquivo `appsettings.json`.
-#### c. Na raiz da pasta do seu usuário, crie um diretório chamado '.aws' e insira um arquivo com nome 'credentials'. Exemplo: 
+#### c.** Na raiz da pasta do seu usuário, crie um diretório chamado '.aws' e insira um arquivo com nome 'credentials'. Exemplo: 
 
 ``` C://Usuários/SeuUsuárioAqui/.aws ```
 
@@ -63,7 +63,7 @@ Versão atual: 1.0.0
 aws_access_key_id = SuaChaveDeAcesso
 aws_secret_access_key = SuaSecretKey
 ```
-#### d. No arquivo S3Service (dentro da pasta /Services/aws) altere as seguintes linhas com as propriedades do bucket criado:
+#### d.** No arquivo S3Service (dentro da pasta /Services/aws) altere as seguintes linhas com as propriedades do bucket criado:
 
 ``` C#
 private readonly string _bucketName = "seu-bucket"; 
