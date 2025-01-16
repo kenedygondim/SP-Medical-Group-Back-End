@@ -21,7 +21,7 @@ namespace SpMedicalGroup.Services
         public async Task<List<ConsultaDetalhadaDto>> ListarTodosConsultasMedico(string emailMedico)
         {
 
-            List<ConsultaDetalhadaDto> consultasMedico = 
+            List<ConsultaDetalhadaDto> consultasMedico =
                 await ctx.Set<ConsultaDetalhadaDto>()
                 .FromSql($"EXEC Consultas_Medico_By_Email {emailMedico}")
                 .ToListAsync();
@@ -29,14 +29,16 @@ namespace SpMedicalGroup.Services
             return consultasMedico;
         }
 
+        // TO-DO: fix provisório, alterar depois
         public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
         {
-            ConfirmarConsultaDetalhesDto confirmarConsultaDetalhes = 
-                await ctx.Set<ConfirmarConsultaDetalhesDto>()
-                .FromSql($"EXEC Preview_Detalhes_Consulta {cpf} {nomeEspecialidade}")
-                .FirstOrDefaultAsync() ?? throw new Exception("Médico ou especialidade não encontrada.");
+            var confirmarConsultaDetalhes =
+             await ctx.Set<ConfirmarConsultaDetalhesDto>()
+             .FromSqlRaw("EXEC Preview_Detalhes_Consulta @p0, @p1", cpf, nomeEspecialidade)
+             .IgnoreQueryFilters()
+             .ToListAsync();
 
-            return confirmarConsultaDetalhes;
+            return confirmarConsultaDetalhes[0];
         }
 
         public async Task<Consulta> Agendar(AgendarConsultaDto novaConsulta)
