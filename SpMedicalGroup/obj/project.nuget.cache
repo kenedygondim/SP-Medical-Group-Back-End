@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DDgyqTCO1Kg=",
+  "dgSpecHash": "WdfFdJQ/ys0=",
   "success": true,
   "projectFilePath": "C:\\Users\\kened\\Documents\\Programação\\C#\\SP_MG\\trabalho_banco_de_dados2\\API\\SpMedicalGroup\\SpMedicalGroup\\SpMedicalGroup.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\kened\\.nuget\\packages\\awssdk.s3\\3.7.410.12\\awssdk.s3.3.7.410.12.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\kened\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.11\\microsoft.aspnetcore.authentication.jwtbearer.8.0.11.nupkg.sha512",
     "C:\\Users\\kened\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
