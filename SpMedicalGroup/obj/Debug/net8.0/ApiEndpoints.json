@@ -574,6 +574,30 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
+    "Method": "AlterarSenha",
+    "RelativePath": "api/Usuario/AlterarSenha",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "alterarSenhaDto",
+        "Type": "SpMedicalGroup.Dto.Usuario.AlterarSenhaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SpMedicalGroup.Models.Usuario",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
     "Method": "ListarTodos",
     "RelativePath": "api/Usuario/ListarTodos",
     "HttpMethod": "GET",
