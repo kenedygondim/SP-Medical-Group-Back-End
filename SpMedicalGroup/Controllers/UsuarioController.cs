@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Services;
 using SpMedicalGroup.Repositories;
+using SpMedicalGroup.Dto.Usuario;
 
 namespace SpMedicalGroup.Controllers
 {
@@ -31,6 +32,16 @@ namespace SpMedicalGroup.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        //provisório
+        [HttpPut("AlterarSenha")]
+        [Authorize(Roles = "1,2,3")]
+        public async Task<Usuario> AlterarSenha ([FromBody] AlterarSenhaDto alterarSenhaDto)
+        {
+            Usuario usuario = await usuarioService.AlterarSenha(alterarSenhaDto);
+
+            return usuario;
         }
     }
 }

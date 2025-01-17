@@ -1,4 +1,6 @@
 ﻿using Amazon.S3.Encryption.Internal;
+using Microsoft.AspNetCore.Mvc;
+using SpMedicalGroup.Dto.Usuario;
 using SpMedicalGroup.Models;
 
 namespace SpMedicalGroup.Repositories
@@ -11,5 +13,6 @@ namespace SpMedicalGroup.Repositories
         Task<Usuario> GetUsuarioByEmail(string email);
         string CriptografarSenha(string senha);
         bool VerificarSenha(string senhaFornecida, string senhaArmazenada);
+        Task<Usuario> AlterarSenha(AlterarSenhaDto alterarSenhaDto);
     }
 }

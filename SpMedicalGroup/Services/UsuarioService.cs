@@ -3,6 +3,8 @@ using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
 using SpMedicalGroup.Repositories;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Mvc;
+using SpMedicalGroup.Dto.Usuario;
 
 
 namespace SpMedicalGroup.Services
@@ -53,6 +55,18 @@ namespace SpMedicalGroup.Services
         public bool VerificarSenha(string senhaForncecida, string senhaArmazenada)
         {
             return BCrypt.Net.BCrypt.Verify(senhaForncecida, senhaArmazenada);  
+        }
+
+        public async Task<Usuario> AlterarSenha(AlterarSenhaDto alterarSenhaDto)
+        {
+            Usuario usuario = await ctx.Usuarios.Where(a => a.Email == alterarSenhaDto.EmailUsuario).FirstOrDefaultAsync() ?? throw new Exception("Usuário não encontrado.");
+
+            usuario.Senha = CriptografarSenha(alterarSenhaDto.NovaSenha);
+
+            ctx.Usuarios.Update(usuario);
+            await ctx.SaveChangesAsync();
+
+            return usuario;
         }
     }
 }
