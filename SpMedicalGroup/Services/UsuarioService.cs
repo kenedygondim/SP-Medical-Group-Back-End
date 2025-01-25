@@ -18,7 +18,7 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<List<Usuario>> ListarTodos()
+        public async Task<List<Usuario>> GetAllUsuarios()
         {
             return await ctx.Usuarios.ToListAsync();
         }

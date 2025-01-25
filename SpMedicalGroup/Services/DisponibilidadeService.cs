@@ -27,7 +27,7 @@ namespace SpMedicalGroup.Services
                  where tb_usuarios.Email == novaDisponibilidade.EmailMedico
                  select tb_medicos.Cpf).FirstOrDefault() ?? throw new Exception("Médico não encontrado");
 
-            List<Disponibilidade> disponibilidadesMedico = await ListarDisponibilidadesMedicoPorData(cpfMedico, novaDisponibilidade.DataDisp, false);
+            List<Disponibilidade> disponibilidadesMedico = await GetDisponibilidadesMedicoByData(cpfMedico, novaDisponibilidade.DataDisp, false);
 
             VerificarDisponibilidadeJaPreenchida(disponibilidadesMedico, novaDisponibilidade);
 
@@ -46,7 +46,7 @@ namespace SpMedicalGroup.Services
         }
 
 
-        public async Task<List<Disponibilidade>> ListarDisponibilidadesMedicoPorData(string cpf, string data, bool situacaoNull) // situacaoNull = true: retorna apenas as disponibilidades que ainda não foram agendadas (Verificação importante para reutilização de código)
+        public async Task<List<Disponibilidade>> GetDisponibilidadesMedicoByData(string cpf, string data, bool situacaoNull) // situacaoNull = true: retorna apenas as disponibilidades que ainda não foram agendadas (Verificação importante para reutilização de código)
         {   
             var disponibilidadePorData = await
                 (from dis in ctx.Disponibilidades

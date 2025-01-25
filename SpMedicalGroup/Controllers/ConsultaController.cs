@@ -19,13 +19,13 @@ namespace SpMedicalGroup.Controllers
             this.consultaService = consultaService;
         }
 
-        [HttpGet("ListarTodosConsultasMedico")]
+        [HttpGet("GetAllConsultasMedico")]
         [Authorize(Roles = "2")]
-        public async Task<IActionResult> ListarTodosConsultasMedico(string email)
+        public async Task<IActionResult> GetAllConsultasMedico(string email)
         {
             try
             {
-                List<ConsultaDetalhadaDto> result = await consultaService.ListarTodosConsultasMedico(email);
+                List<ConsultaDetalhadaDto> result = await consultaService.GetAllConsultasMedico(email);
                 return StatusCode(200, result);
             }
             catch (Exception ex)
@@ -34,12 +34,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ConfirmarConsultaDetalhes")]
-        public async Task<IActionResult> ConfirmarConsultaDetalhes([FromQuery] string cpf, [FromQuery] string nomeEspecialidade)
+        [HttpGet("GetDetalhesConsulta")]
+        public async Task<IActionResult> GetDetalhesConsulta([FromQuery] string cpf, [FromQuery] string nomeEspecialidade)
         {
             try
             {
-                ConfirmarConsultaDetalhesDto result = await consultaService.ConfirmarConsultaDetalhes(cpf, nomeEspecialidade);
+                ConfirmarConsultaDetalhesDto result = await consultaService.GetDetalhesConsulta(cpf, nomeEspecialidade);
                 return StatusCode(200, result);
             }
             catch (Exception ex)
@@ -62,13 +62,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpPost("Agendar")]
+        [HttpPost("AgendarConsulta")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> Agendar(AgendarConsultaDto novaConsulta)
+        public async Task<IActionResult> AgendarConsulta(AgendarConsultaDto novaConsulta)
         {
             try
             {
-                Consulta consultaCriada = await consultaService.Agendar(novaConsulta);
+                Consulta consultaCriada = await consultaService.AgendarConsulta(novaConsulta);
                 return StatusCode(201, consultaCriada);
             }
             catch (Exception ex)
@@ -77,13 +77,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ListarTodasConsultasPaciente")]
+        [HttpGet("GetAllConsultasPaciente")]
         [Authorize(Roles ="1")]
-        public async Task<IActionResult> ListarTodasConsultasPaciente([FromQuery] string email)
+        public async Task<IActionResult> GetAllConsultasPaciente([FromQuery] string email)
         {
             try
             {
-                List<ConsultaDetalhadaDto> result = await consultaService.ListarTodasConsultasPaciente(email);
+                List<ConsultaDetalhadaDto> result = await consultaService.GetAllConsultasPaciente(email);
                 return StatusCode(200, result);
             }
             catch (Exception ex)

@@ -5,7 +5,7 @@ namespace SpMedicalGroup.Repositories
 {
     public interface IFotoPerfilService
     {
-        Task<FotoPerfil> CadastrarFotoPerfil(FotoPerfil fotoPerfil);
+        Task<FotoPerfil> AdicionarFotoPerfil(FotoPerfil fotoPerfil);
         Task<string> AlterarFotoPerfil(string email, IFormFile novaFotoPerfil);
     }
 }

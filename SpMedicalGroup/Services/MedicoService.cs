@@ -17,7 +17,7 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<InformacoesMedicoPopUp> InformacoesMedicoEspecifico(string cpfMedico)
+        public async Task<InformacoesMedicoPopUp> GetDetalhesMedico(string cpfMedico)
         {
             var informacoesMedico = await 
                 (from med in ctx.Medicos
@@ -48,13 +48,13 @@ namespace SpMedicalGroup.Services
                     Email = grouped.Key.Email,
                     FotoPerfilUrl = grouped.Key.FotoPerfilUrl,
                     NomeFantasia = grouped.Key.NomeFantasia,
-                    NumeroConsultas = grouped.Count(g => g.conLeft != null)
+                    NumeroConsultas = grouped.Where(c => c.conLeft.Situacao == "Concluída").Count(g => g.conLeft != null)
                 }).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado.");
 
             return informacoesMedico;
         }
 
-        public async Task<List<MedicoInformacoesCardDto>> ListarInformacoesBasicasMedico(string? especialidade, string? nomeMedico, string? numCrm)
+        public async Task<List<MedicoInformacoesCardDto>> GetInfoBasicasMedico(string? especialidade, string? nomeMedico, string? numCrm)
         {
             var query = from med in ctx.Medicos
                         join fot in ctx.FotosPerfil on med.FotoPerfilId equals fot.FotoPerfilId
@@ -97,12 +97,12 @@ namespace SpMedicalGroup.Services
             return cpfMedico;
         }
 
-        public async Task<List<Medico>> ListarTodos()
+        public async Task<List<Medico>> GetAllMedicos()
         {
              return await ctx.Medicos.ToListAsync();
         }
 
-        public async Task<InfoBasicasUsuario> InfoBasicasUsuario(string email)
+        public async Task<InfoBasicasUsuario> GetInfoBasicasUsuarioMedico(string email)
         {
             var medico = await
                 (from usu in ctx.Usuarios
@@ -119,7 +119,7 @@ namespace SpMedicalGroup.Services
             return medico;
         }
 
-        public async Task<PerfilCompletoMedicoDto> PerfilCompletoMedico(string email)
+        public async Task<PerfilCompletoMedicoDto> GetPerfilCompletoMedico(string email)
         {
             return await
                 (from usu in ctx.Usuarios

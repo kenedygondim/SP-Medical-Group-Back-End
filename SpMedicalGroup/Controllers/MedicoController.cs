@@ -22,12 +22,12 @@ namespace SpMedicalGroup.Controllers
         }
 
 
-        [HttpGet("InformacoesMedicoEspecifico")]
-        public async Task<IActionResult> InformacoesMedicoEspecifico([FromQuery] string cpfMedico)
+        [HttpGet("GetDetalhesMedico")]
+        public async Task<IActionResult> GetDetalhesMedico([FromQuery] string cpfMedico)
         {
             try
             {
-                InformacoesMedicoPopUp infoMedicoPopUp = await medicoService.InformacoesMedicoEspecifico(cpfMedico);
+                InformacoesMedicoPopUp infoMedicoPopUp = await medicoService.GetDetalhesMedico(cpfMedico);
                 return StatusCode(200, infoMedicoPopUp);
             }
             catch (Exception ex)
@@ -50,12 +50,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ListarInformacoesBasicasMedico")]
-        public async Task<IActionResult> ListarInformacoesBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
+        [HttpGet("GetInfoBasicasMedico")]
+        public async Task<IActionResult> GetInfoBasicasMedico([FromQuery] string? especialidade, [FromQuery] string? nomeMedico, [FromQuery] string? numCrm)
         {
             try
             {
-                List<MedicoInformacoesCardDto> informacoesBasicasMedicos = await medicoService.ListarInformacoesBasicasMedico(especialidade, nomeMedico, numCrm);
+                List<MedicoInformacoesCardDto> informacoesBasicasMedicos = await medicoService.GetInfoBasicasMedico(especialidade, nomeMedico, numCrm);
                 return StatusCode(200, informacoesBasicasMedicos);
             }
             catch (Exception ex)
@@ -64,12 +64,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ListarTodos")]
-        public async Task<IActionResult> ListarTodos()
+        [HttpGet("GetAllMedicos")]
+        public async Task<IActionResult> GetAllMedicos()
         {
             try
             {
-                List<Medico> todosMedicos = await medicoService.ListarTodos();
+                List<Medico> todosMedicos = await medicoService.GetAllMedicos();
                 return StatusCode(200, todosMedicos);
             }
             catch (Exception ex)
@@ -78,13 +78,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("InfoBasicasUsuario")]
+        [HttpGet("GetInfoBasicasUsuarioMedico")]
         [Authorize(Roles = "2")]
-        public async Task<IActionResult> RetornarInfoBasicasUsuario([FromQuery] string email)
+        public async Task<IActionResult> GetInfoBasicasUsuarioMedico([FromQuery] string email)
         {
             try
             {
-                InfoBasicasUsuario paciente = await medicoService.InfoBasicasUsuario(email);
+                InfoBasicasUsuario paciente = await medicoService.GetInfoBasicasUsuarioMedico(email);
                 return Ok(paciente);
             }
             catch (Exception ex)
@@ -93,13 +93,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("PerfilCompletoMedico")]
+        [HttpGet("GetPerfilCompletoMedico")]
         [Authorize(Roles = "2")]
-        public async Task<IActionResult> PerfilCompletoMedico([FromQuery] string email)
+        public async Task<IActionResult> GetPerfilCompletoMedico([FromQuery] string email)
         {
             try
             {
-                PerfilCompletoMedicoDto medico = await medicoService.PerfilCompletoMedico(email);
+                PerfilCompletoMedicoDto medico = await medicoService.GetPerfilCompletoMedico(email);
                 return Ok(medico);
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<Role> Cadastrar(Role novaRole)
+        public async Task<Role> AdicionarrRole(Role novaRole)
         {
 
             await ctx.Roles.AddAsync(novaRole);
@@ -22,7 +22,7 @@ namespace SpMedicalGroup.Services
             return novaRole;
         }
 
-        public async Task<List<Role>> ListarTodas()
+        public async Task<List<Role>> GetAllRoles()
         {
             return await ctx.Roles.ToListAsync();
         }

@@ -18,7 +18,7 @@ namespace SpMedicalGroup.Services
             this.pacienteService = pacienteService;
         }
 
-        public async Task<List<ConsultaDetalhadaDto>> ListarTodosConsultasMedico(string emailMedico)
+        public async Task<List<ConsultaDetalhadaDto>> GetAllConsultasMedico(string emailMedico)
         {
 
             List<ConsultaDetalhadaDto> consultasMedico =
@@ -29,8 +29,7 @@ namespace SpMedicalGroup.Services
             return consultasMedico;
         }
 
-        // TO-DO: fix provisório, alterar depois
-        public async Task<ConfirmarConsultaDetalhesDto> ConfirmarConsultaDetalhes(string cpf, string nomeEspecialidade)
+        public async Task<ConfirmarConsultaDetalhesDto> GetDetalhesConsulta(string cpf, string nomeEspecialidade)
         {
             var confirmarConsultaDetalhes =
              await ctx.Set<ConfirmarConsultaDetalhesDto>()
@@ -41,7 +40,7 @@ namespace SpMedicalGroup.Services
             return confirmarConsultaDetalhes[0];
         }
 
-        public async Task<Consulta> Agendar(AgendarConsultaDto novaConsulta)
+        public async Task<Consulta> AgendarConsulta(AgendarConsultaDto novaConsulta)
         {
             bool disponibilidadeUtilizavel = await VerificaDisponibilidadeJaPreenchida(novaConsulta.DisponibilidadeId);
 
@@ -73,7 +72,7 @@ namespace SpMedicalGroup.Services
                 .FirstOrDefaultAsync() == null;
         }
 
-        public async Task<List<ConsultaDetalhadaDto>> ListarTodasConsultasPaciente(string emailPaciente)
+        public async Task<List<ConsultaDetalhadaDto>> GetAllConsultasPaciente(string emailPaciente)
         {
             List<ConsultaDetalhadaDto> consultasPaciente =
                 await ctx.Set<ConsultaDetalhadaDto>()

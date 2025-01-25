@@ -21,7 +21,7 @@ namespace SpMedicalGroup.Services
         }
 
 
-        public async Task<FotoPerfil> CadastrarFotoPerfil(FotoPerfil fotoPerfil)
+        public async Task<FotoPerfil> AdicionarFotoPerfil(FotoPerfil fotoPerfil)
         {
             await ctx.FotosPerfil.AddAsync(fotoPerfil);
             await ctx.SaveChangesAsync();
@@ -30,8 +30,6 @@ namespace SpMedicalGroup.Services
 
         public async Task<string> AlterarFotoPerfil(string email, IFormFile novaFotoPerfil)
         {
-      
-
             var usuario = await ctx.Usuarios.Where(u => u.Email == email).FirstOrDefaultAsync() ?? throw new Exception(novaFotoPerfil.ToString());
 
             if (novaFotoPerfil == null)

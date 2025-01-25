@@ -14,7 +14,7 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<Empresa> Cadastrar(Empresa novaEmpresa)
+        public async Task<Empresa> CadastrarEmpresa(Empresa novaEmpresa)
         {
             await ctx.Empresas.AddAsync(novaEmpresa);
             await ctx.SaveChangesAsync();
@@ -22,7 +22,7 @@ namespace SpMedicalGroup.Services
             return novaEmpresa;
         }
 
-        public async Task<List<Empresa>> ListarTodas()
+        public async Task<List<Empresa>> GetAllEmpresas()
         {
             return await ctx.Empresas.ToListAsync();
         }

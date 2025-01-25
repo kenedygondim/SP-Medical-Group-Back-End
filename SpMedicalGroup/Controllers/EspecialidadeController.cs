@@ -19,12 +19,12 @@ namespace SpMedicalGroup.Controllers
             this.especialidadeService = especialidadeService;
         }
 
-        [HttpGet("obterEspecialidadesMedico")]
-        public async Task<IActionResult> ObterEspecialidadesMedico([FromQuery] string cpf)
+        [HttpGet("GetAllEspecialidadesMedico")]
+        public async Task<IActionResult> GetAllEspecialidadesMedico([FromQuery] string cpf)
         {
             try
             {
-                List<IdNomeEspecialidadeDto> especialidadesMedico = await especialidadeService.ObterEspecialidadesMedico(cpf);
+                List<IdNomeEspecialidadeDto> especialidadesMedico = await especialidadeService.GetAllEspecialidadesMedico(cpf);
                 return StatusCode(200, especialidadesMedico);
             }
             catch (Exception ex)
@@ -33,12 +33,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("/paginaEspecialidades")]
-        public async Task<IActionResult> PaginaEspecialidades()
+        [HttpGet("GetDetalhesEspecialidades")]
+        public async Task<IActionResult> GetDetalhesEspecialidades()
         {
             try
             {
-                List<PaginaEspecialidadesDto> infoPaginaEspecialidades = await especialidadeService.ListarInfoPaginaEspecialidades();
+                List<PaginaEspecialidadesDto> infoPaginaEspecialidades = await especialidadeService.GetDetalhesEspecialidades();
                 return StatusCode(200, infoPaginaEspecialidades);
             }
             catch (Exception ex)
@@ -47,12 +47,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("ListarTodos")]
-        public async Task<IActionResult> ListarTodos()
+        [HttpGet("GetAllEspecialidades")]
+        public async Task<IActionResult> GetAllEspecialidades()
         {
             try
             {
-                List<Especialidade> especialidades = await especialidadeService.ListarTodas();
+                List<Especialidade> especialidades = await especialidadeService.GetAllEspecialidades();
                 return StatusCode(200, especialidades);
             }
             catch (Exception ex)

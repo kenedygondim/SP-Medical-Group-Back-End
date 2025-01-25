@@ -19,13 +19,13 @@ namespace SpMedicalGroup.Controllers
             this.usuarioService = usuarioService;
         }
 
-        [HttpGet("ListarTodos")]
+        [HttpGet("GetAllUsuarios")]
         [Authorize(Roles="3")]
         public async Task<IActionResult> ListarTodos()
         {
             try
             {
-                List<Usuario> todosUsuarios = await usuarioService.ListarTodos();
+                List<Usuario> todosUsuarios = await usuarioService.GetAllUsuarios();
                 return StatusCode(200, todosUsuarios);
             }
             catch (Exception ex)
@@ -34,7 +34,6 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        //provisório
         [HttpPut("AlterarSenha")]
         [Authorize(Roles = "1,2,3")]
         public async Task<Usuario> AlterarSenha ([FromBody] AlterarSenhaDto alterarSenhaDto)

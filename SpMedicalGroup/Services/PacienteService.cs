@@ -90,7 +90,7 @@ namespace SpMedicalGroup.Services
                         FotoPerfilUrl = urlAws
                     };
 
-                    FotoPerfil FotoPerfilCriado = await fotoPerfilService.CadastrarFotoPerfil(fotoPerfil);
+                    FotoPerfil FotoPerfilCriado = await fotoPerfilService.AdicionarFotoPerfil(fotoPerfil);
 
                     paciente.FotoPerfilId = FotoPerfilCriado.FotoPerfilId;
                 }
@@ -124,7 +124,7 @@ namespace SpMedicalGroup.Services
             }
         }
 
-        public async Task<InfoBasicasUsuario> InfoBasicasUsuario(string email)
+        public async Task<InfoBasicasUsuario> GetInfoBasicasUsuarioPaciente(string email)
         {
             var paciente = await
                 (from usu in ctx.Usuarios
@@ -141,7 +141,7 @@ namespace SpMedicalGroup.Services
             return paciente;
         }
 
-        public async Task<PerfilPacienteDto> PerfilCompletoPaciente(string email)
+        public async Task<PerfilPacienteDto> GetPerfilCompletoPaciente(string email)
         {
             return await
                 (from usu in ctx.Usuarios
@@ -168,7 +168,7 @@ namespace SpMedicalGroup.Services
                  }).FirstOrDefaultAsync() ?? throw new Exception("Paciente não encontrado");         
         }
 
-        public async Task<List<InfoBasicasUsuario>> ListarInformacoesBasicasPaciente(string emailMedico, string? especialidade, string? nomePaciente, string? dataAtendimento)
+        public async Task<List<InfoBasicasUsuario>> GetInfoBasicasPaciente(string emailMedico, string? especialidade, string? nomePaciente, string? dataAtendimento)
         {
             var query = from pac in ctx.Pacientes
                         join fot in ctx.FotosPerfil on pac.FotoPerfilId equals fot.FotoPerfilId into fotos

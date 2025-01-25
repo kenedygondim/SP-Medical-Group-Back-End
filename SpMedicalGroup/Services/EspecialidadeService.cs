@@ -15,7 +15,7 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<List<IdNomeEspecialidadeDto>> ObterEspecialidadesMedico(string cpf)
+        public async Task<List<IdNomeEspecialidadeDto>> GetAllEspecialidadesMedico(string cpf)
         {
             var especialidadesMedico = await 
                 (from esp in ctx.Especialidades
@@ -31,7 +31,7 @@ namespace SpMedicalGroup.Services
             return especialidadesMedico;
         }
 
-        public async Task<List<PaginaEspecialidadesDto>> ListarInfoPaginaEspecialidades()
+        public async Task<List<PaginaEspecialidadesDto>> GetDetalhesEspecialidades()
         {
             List<PaginaEspecialidadesDto> paginaEspecialidadesDtos = await 
                 ctx.Set<PaginaEspecialidadesDto>().FromSqlRaw("SELECT * FROM Especialidades_Cards").OrderBy(a => a.Especialidade).ToListAsync();
@@ -40,7 +40,7 @@ namespace SpMedicalGroup.Services
         }
 
 
-        public async Task<List<Especialidade>> ListarTodas()
+        public async Task<List<Especialidade>> GetAllEspecialidades()
         {
             return await ctx.Especialidades.ToListAsync();
         }

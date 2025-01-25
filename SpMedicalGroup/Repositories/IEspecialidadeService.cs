@@ -5,8 +5,8 @@ namespace SpMedicalGroup.Repositories
 {
     public interface IEspecialidadeService
     {
-        Task<List<IdNomeEspecialidadeDto>> ObterEspecialidadesMedico(string cpf);
-        Task<List<PaginaEspecialidadesDto>> ListarInfoPaginaEspecialidades();
-        Task<List<Especialidade>> ListarTodas();
+        Task<List<IdNomeEspecialidadeDto>> GetAllEspecialidadesMedico(string cpf);
+        Task<List<PaginaEspecialidadesDto>> GetDetalhesEspecialidades();
+        Task<List<Especialidade>> GetAllEspecialidades();
     }
 }

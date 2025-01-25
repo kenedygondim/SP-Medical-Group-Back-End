@@ -4,7 +4,7 @@ namespace SpMedicalGroup.Repositories
 {
     public interface IRoleService
     {
-        Task<Role> Cadastrar(Role novaRole);
-        Task<List<Role>> ListarTodas();
+        Task<Role> AdicionarrRole(Role novaRole);
+        Task<List<Role>> GetAllRoles();
     }
 }

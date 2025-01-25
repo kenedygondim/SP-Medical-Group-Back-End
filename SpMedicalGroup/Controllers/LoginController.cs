@@ -4,11 +4,10 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using SpMedicalGroup.Contexts;
 using SpMedicalGroup.Models;
-using SpMedicalGroup.Services;
-using SpMedicalGroup.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using SpMedicalGroup.Repositories;
+using SpMedicalGroup.Dto.Usuario;
 
 
 namespace SpMedicalGroup.Controllers
@@ -28,7 +27,7 @@ namespace SpMedicalGroup.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login)
+        public async Task<IActionResult> Login(LoginDto login)
         {
             try
             {

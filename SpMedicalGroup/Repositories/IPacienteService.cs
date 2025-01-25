@@ -5,11 +5,11 @@ namespace SpMedicalGroup.Repositories
 {
     public interface IPacienteService
     {
-        Task<string> BuscaCpfPacientePorEmail(string email);
+        Task<InfoBasicasUsuario> GetInfoBasicasUsuarioPaciente(string email);
+        Task<PerfilPacienteDto> GetPerfilCompletoPaciente(string email);
+        Task<List<InfoBasicasUsuario>> GetInfoBasicasPaciente(string emailMedico, string? especialidade, string? nomePaciente, string? dataAtendimento);
         Task<Paciente> CadastrarPaciente(CadastroPacienteDto novoPaciente);
         Task<Paciente> AdicionarPaciente(Paciente paciente);
-        Task<InfoBasicasUsuario> InfoBasicasUsuario(string email);
-        Task<PerfilPacienteDto> PerfilCompletoPaciente(string email);
-        Task<List<InfoBasicasUsuario>> ListarInformacoesBasicasPaciente(string emailMedico, string? especialidade, string? nomePaciente, string? dataAtendimento);
+        Task<string> BuscaCpfPacientePorEmail(string email);
     }
 }

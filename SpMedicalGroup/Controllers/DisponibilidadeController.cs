@@ -19,9 +19,9 @@ namespace SpMedicalGroup.Controllers
             this.disponibilidadeService = disponibilidadeService;
         }
 
-        [HttpPost("postDisponibilidade")]
+        [HttpPost("AdicionarDisponibilidade")]
         [Authorize(Roles="2")]
-        public async Task<IActionResult> Adicionar(CriarDisponibilidadeDto novaDisponibilidade)
+        public async Task<IActionResult> AdicionarDisponibilidade(CriarDisponibilidadeDto novaDisponibilidade)
         {
             try
             {
@@ -34,9 +34,9 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpDelete("deleteDisponibilidade")]
+        [HttpDelete("ExcluirDisponibilidade")]
         [Authorize(Roles = "2")]
-        public async Task<IActionResult> Excluir([FromQuery] int disponibilidadeId)
+        public async Task<IActionResult> ExcluirDisponibilidade([FromQuery] int disponibilidadeId)
         {
             try
             {
@@ -49,13 +49,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("getDisponibilidadesNaoPreenchidas")]
+        [HttpGet("GetDisponibilidadesMedicoNaoPreenchidas")]
         [Authorize(Roles = "1,2")]
-        public async Task<IActionResult> ListarDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
+        public async Task<IActionResult> GetDisponibilidadesMedicoNaoPreenchidas([FromQuery] string cpf, [FromQuery] string data)
         {
             try
             {
-                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data, true);
+                var disponibilidades = await disponibilidadeService.GetDisponibilidadesMedicoByData(cpf, data, true);
                 return StatusCode(200, disponibilidades);
             }
             catch (Exception ex) {
@@ -63,13 +63,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("getDisponibilidades")]
+        [HttpGet("GetAllDisponibilidadesMedico")]
         [Authorize(Roles = "1,2")]
-        public async Task<IActionResult> ListarTodasDisponibilidadesMedicoPorData([FromQuery] string cpf, [FromQuery] string data)
+        public async Task<IActionResult> GetAllDisponibilidadesMedico([FromQuery] string cpf, [FromQuery] string data)
         {
             try
             {
-                var disponibilidades = await disponibilidadeService.ListarDisponibilidadesMedicoPorData(cpf, data, false);
+                var disponibilidades = await disponibilidadeService.GetDisponibilidadesMedicoByData(cpf, data, false);
                 return StatusCode(200, disponibilidades);
             }
             catch (Exception ex)

@@ -35,23 +35,8 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        //[HttpGet("ListarPacientesMedico")]
-        //[Authorize(Roles = "2")]
-        //public async Task<IActionResult> ListarPacientesMedico([FromQuery] string emailUsuario)
-        //{
-        //    try
-        //    {
-        //        List<InfoBasicasPaciente> pacientesMedico = await pacienteService.ListarPacientesMedico(emailUsuario);
-        //        return Ok(pacientesMedico);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
-        [HttpPost("Cadastrar")]
-        public async Task<IActionResult> Cadastrar([FromForm] CadastroPacienteDto novoPaciente)
+        [HttpPost("CadastrarPaciente")]
+        public async Task<IActionResult> CadastrarPaciente([FromForm] CadastroPacienteDto novoPaciente)
         {
             try
             {
@@ -64,13 +49,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("InfoBasicasUsuario")]
+        [HttpGet("GetInfoBasicasUsuarioPaciente")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> RetornarInfoBasicasUsuario([FromQuery] string email)
+        public async Task<IActionResult> GetInfoBasicasUsuarioPaciente([FromQuery] string email)
         {
             try
             {
-                InfoBasicasUsuario paciente = await pacienteService.InfoBasicasUsuario(email);
+                InfoBasicasUsuario paciente = await pacienteService.GetInfoBasicasUsuarioPaciente(email);
                 return Ok(paciente);
             }
             catch (Exception ex)
@@ -79,13 +64,13 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("PerfilCompletoPaciente")]
+        [HttpGet("GetPerfilCompletoPaciente")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> PerfilCompletoPaciente([FromQuery] string email)
+        public async Task<IActionResult> GetPerfilCompletoPaciente([FromQuery] string email)
         {
             try
             {
-                PerfilPacienteDto paciente = await pacienteService.PerfilCompletoPaciente(email);
+                PerfilPacienteDto paciente = await pacienteService.GetPerfilCompletoPaciente(email);
                 return Ok(paciente);
             }
             catch (Exception ex)
@@ -94,12 +79,12 @@ namespace SpMedicalGroup.Controllers
             }
         }
 
-        [HttpGet("InformacoesBasicasPaciente")]
-        public async Task<IActionResult> InformacoesBasicasPaciente([FromQuery] string emailMedico, [FromQuery] string? especialidade, [FromQuery] string? nomePaciente, [FromQuery] string? dataAtendimento)
+        [HttpGet("GetInfoBasicasPaciente")]
+        public async Task<IActionResult> GetInfoBasicasPaciente([FromQuery] string emailMedico, [FromQuery] string? especialidade, [FromQuery] string? nomePaciente, [FromQuery] string? dataAtendimento)
         {
             try
             {
-                List<InfoBasicasUsuario> pacientes = await pacienteService.ListarInformacoesBasicasPaciente(emailMedico, especialidade, nomePaciente, dataAtendimento);
+                List<InfoBasicasUsuario> pacientes = await pacienteService.GetInfoBasicasPaciente(emailMedico, especialidade, nomePaciente, dataAtendimento);
                 return Ok(pacientes);
             }
             catch (Exception ex)
