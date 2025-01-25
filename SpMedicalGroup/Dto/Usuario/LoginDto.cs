@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SpMedicalGroup.ViewModels
+namespace SpMedicalGroup.Dto.Usuario
 {
-    public class LoginViewModel
+    public class LoginDto
     {
         [Required(ErrorMessage = "Informe o e-mail do usuário!")]
         public required string Email { get; set; }
