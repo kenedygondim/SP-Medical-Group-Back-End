@@ -212,6 +212,38 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
+    "Method": "AdicionarEspecialidade",
+    "RelativePath": "api/Especialidade/AdicionarEspecialidade",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adicionarEspecialidadeDto",
+        "Type": "SpMedicalGroup.Dto.Especialidade.AdicionarEspecialidadeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
+    "Method": "ExcluirEspecialidade",
+    "RelativePath": "api/Especialidade/ExcluirEspecialidade",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idEspecialidade",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.EspecialidadeController",
     "Method": "GetAllEspecialidades",
     "RelativePath": "api/Especialidade/GetAllEspecialidades",
     "HttpMethod": "GET",
@@ -565,9 +597,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "novoRole",
-        "Type": "SpMedicalGroup.Models.Role",
-        "IsRequired": true
+        "Name": "nomeRole",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -605,6 +637,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
+    "Method": "ExcluirUsuario",
+    "RelativePath": "api/Usuario/ExcluirUsuario",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idUsuario",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
