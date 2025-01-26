@@ -42,5 +42,21 @@ namespace SpMedicalGroup.Controllers
 
             return usuario;
         }
+
+        [HttpDelete("ExcluirUsuario")]
+        [Authorize(Roles = "3")]
+        public async Task<IActionResult> ExcluirUsuario([FromQuery] int idUsuario)
+        {
+            try
+            {
+                await usuarioService.ExcluirUsuario(idUsuario);
+                return StatusCode(204, "Especialidade excluída com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Não foi possível excluir usuário.", detalhes = ex.Message });
+            }
+        }
+
     }
 }

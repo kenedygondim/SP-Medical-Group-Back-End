@@ -36,16 +36,16 @@ namespace SpMedicalGroup.Controllers
 
         [HttpPost("AdicionarRole")]
         [Authorize(Roles = "3")]
-        public async Task<IActionResult> AdicionarrRole(Role novoRole)
+        public async Task<IActionResult> AdicionarrRole([FromQuery] string nomeRole)
         {
             try
             {
-                Role roleCriada = await RoleService.AdicionarrRole(novoRole);
-                return StatusCode(201, roleCriada);
+                await RoleService.AdicionarRole(nomeRole);
+                return StatusCode(201, "Perfil de usuário criado!");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { mensagem = "Não foi possível adicionar perfil de usuário.", detalhes = ex.Message });
             }
         }
     }

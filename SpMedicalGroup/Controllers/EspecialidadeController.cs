@@ -3,6 +3,7 @@ using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Especialidade;
 using SpMedicalGroup.Services;
 using SpMedicalGroup.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace SpMedicalGroup.Controllers
@@ -58,6 +59,38 @@ namespace SpMedicalGroup.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("AdicionarEspecialidade")]
+        [Authorize(Roles = "3")]
+        public async Task<IActionResult> AdicionarEspecialidade([FromBody] AdicionarEspecialidadeDto adicionarEspecialidadeDto)
+        {
+            try
+            {
+                AdicionarEspecialidadeDto especialidadeAdicionada = await especialidadeService.AdicionarEspecialidade(adicionarEspecialidadeDto);
+                return StatusCode(201, especialidadeAdicionada);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Não foi possível adicionar especialidade.", detalhes = ex.Message });
+            }
+        }
+
+
+
+        [HttpDelete("ExcluirEspecialidade")]
+        [Authorize(Roles = "3")]
+        public async Task<IActionResult> ExcluirEspecialidade([FromQuery] int idEspecialidade)
+        {
+            try
+            {
+                await especialidadeService.ExcluirEspecialidade(idEspecialidade);
+                return StatusCode(204, "Especialidade excluída com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Não foi possível excluir especialidade.", detalhes = ex.Message });
             }
         }
     }
