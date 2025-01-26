@@ -14,5 +14,6 @@ namespace SpMedicalGroup.Repositories
         string CriptografarSenha(string senha);
         bool VerificarSenha(string senhaFornecida, string senhaArmazenada);
         Task<Usuario> AlterarSenha(AlterarSenhaDto alterarSenhaDto);
+        Task<string> ExcluirUsuario(int idUsuario);
     }
 }

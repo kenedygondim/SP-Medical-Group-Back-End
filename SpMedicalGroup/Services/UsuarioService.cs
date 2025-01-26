@@ -68,5 +68,15 @@ namespace SpMedicalGroup.Services
 
             return usuario;
         }
+
+        public async Task<string> ExcluirUsuario(int idUsuario)
+        {
+            Usuario usuario = await ctx.Usuarios.FindAsync(idUsuario) ?? throw new Exception("Usuário não encontrado");
+
+            ctx.Usuarios.Remove(usuario);
+            await ctx.SaveChangesAsync();
+
+            return "Usuario excluído com sucesso!";
+        }
     }
 }

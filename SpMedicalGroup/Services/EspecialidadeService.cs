@@ -44,5 +44,44 @@ namespace SpMedicalGroup.Services
         {
             return await ctx.Especialidades.ToListAsync();
         }
+
+        public async Task<string> ExcluirEspecialidade(int idEspecialidade)
+        {
+            Especialidade especialidadeEncontrada = await ctx.Especialidades
+                .Where(e => e.EspecialidadeId == idEspecialidade).FirstOrDefaultAsync()
+                ?? throw new Exception("Especialidade não encontrada");
+
+            bool especialidadePossuiConsultas = await ctx.Consulta.FirstOrDefaultAsync(c => c.EspecialidadeId == idEspecialidade) != null;
+
+            if (especialidadePossuiConsultas)
+            {
+                throw new Exception("Não é possível excluir uma especialidade que possui consultas.");
+            }
+
+            ctx.Especialidades.Remove(especialidadeEncontrada);
+            await ctx.SaveChangesAsync();
+
+            return "Especialidade excluída com sucesso.";
+        }
+
+        public async Task<AdicionarEspecialidadeDto> AdicionarEspecialidade(AdicionarEspecialidadeDto adicionarEspecialidadeDto)
+        {
+            if (adicionarEspecialidadeDto.NomeEspecialidade is null)
+                throw new Exception("Campo chegou nulo no service");
+
+
+            bool especialidadeEncontrada = await ctx.Especialidades
+                .Where(e => e.Nome == adicionarEspecialidadeDto.NomeEspecialidade).FirstOrDefaultAsync() != null;
+
+            if (especialidadeEncontrada)
+            {
+                throw new Exception("Já existe uma especialidade com o mesmo nome!");
+            }
+
+            await ctx.Especialidades.AddAsync(new Especialidade { Nome = adicionarEspecialidadeDto.NomeEspecialidade, Descricao = adicionarEspecialidadeDto.DescricaoEspecialidade });
+            await ctx.SaveChangesAsync();
+
+            return adicionarEspecialidadeDto;
+        }
     }
 }

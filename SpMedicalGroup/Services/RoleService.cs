@@ -14,12 +14,18 @@ namespace SpMedicalGroup.Services
             this.ctx = ctx;
         }
 
-        public async Task<Role> AdicionarrRole(Role novaRole)
+        public async Task<string> AdicionarRole(string nomeRole)
         {
+            bool perfilExistente = await ctx.Roles.FirstOrDefaultAsync(r => r.Nome == nomeRole) != null;
 
-            await ctx.Roles.AddAsync(novaRole);
+            if (perfilExistente)
+            {
+                throw new Exception("Perfil de usuário já existe.");
+            }
+
+            await ctx.Roles.AddAsync(new Role() { Nome = nomeRole });
             await ctx.SaveChangesAsync();
-            return novaRole;
+            return "Perfil de usuário criado!";
         }
 
         public async Task<List<Role>> GetAllRoles()
