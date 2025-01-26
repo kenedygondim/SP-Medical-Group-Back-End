@@ -284,7 +284,9 @@ namespace SpMedicalGroup.Contexts
                 entity
                 .HasOne(e => e.Especialidade)
                 .WithMany(e => e.MedicoEspecialidade)
-                .HasForeignKey(ac => ac.EspecialidadeId);
+                .HasForeignKey(ac => ac.EspecialidadeId)
+                .OnDelete(DeleteBehavior.Cascade)
+                ;
             });
 
             modelBuilder.Entity<Disponibilidade>(entity => {
