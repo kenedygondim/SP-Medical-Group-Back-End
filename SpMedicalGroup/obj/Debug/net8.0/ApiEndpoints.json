@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "SpMedicalGroup.Controllers.AdminController",
+    "Method": "Acessar",
+    "RelativePath": "api/Admin/Acessar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SpMedicalGroup.Controllers.ConsultaController",
     "Method": "Acessar",
     "RelativePath": "api/Consulta/Acessar",
@@ -631,6 +641,24 @@
     "ReturnTypes": [
       {
         "Type": "SpMedicalGroup.Models.Usuario",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
+    "Method": "AlterarSenhaAdmin",
+    "RelativePath": "api/Usuario/alterarSenhaAdmin",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
         "MediaTypes": [
           "application/json"
         ],
