@@ -650,24 +650,6 @@
   },
   {
     "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
-    "Method": "AlterarSenhaAdmin",
-    "RelativePath": "api/Usuario/alterarSenhaAdmin",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.String",
-        "MediaTypes": [
-          "application/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
     "Method": "ExcluirUsuario",
     "RelativePath": "api/Usuario/ExcluirUsuario",
     "HttpMethod": "DELETE",
@@ -686,6 +668,16 @@
     "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
     "Method": "ListarTodos",
     "RelativePath": "api/Usuario/GetAllUsuarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
+    "Method": "teste",
+    "RelativePath": "api/Usuario/MudarSenhas",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

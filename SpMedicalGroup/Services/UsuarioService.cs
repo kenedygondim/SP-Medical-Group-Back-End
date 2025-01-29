@@ -78,5 +78,17 @@ namespace SpMedicalGroup.Services
 
             return "Usuario excluído com sucesso!";
         }
+
+        //public async Task<string> CriptografarSenhas()
+        //{
+        //    await ctx.Usuarios.ForEachAsync(u =>
+        //    {
+        //        u.Senha = CriptografarSenha(u.Senha);
+        //    });
+
+        //    await ctx.SaveChangesAsync();
+
+        //    return "Senha de todos os usuários atualizada com sucesso!";
+        //}
     }
 }

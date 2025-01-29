@@ -19,6 +19,21 @@ namespace SpMedicalGroup.Controllers
             this.usuarioService = usuarioService;
         }
 
+        //[HttpGet(CriptografarSenhas")]
+        //public async Task<IActionResult> CriptografarSenhas()
+        //{
+        //    try
+        //    {
+        //        await usuarioService.updateAllPassword();
+        //        return StatusCode(200, "Senhas alteradas com sucesso!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+
         [HttpGet("GetAllUsuarios")]
         [Authorize(Roles="3")]
         public async Task<IActionResult> ListarTodos()
