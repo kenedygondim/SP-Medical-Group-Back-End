@@ -4,6 +4,9 @@ using SpMedicalGroup.Models;
 using SpMedicalGroup.Dto.Medico;
 using SpMedicalGroup.Dto.Paciente;
 using SpMedicalGroup.Repositories;
+using Microsoft.AspNetCore.Components.Forms;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System;
 
 
 namespace SpMedicalGroup.Services
@@ -19,53 +22,61 @@ namespace SpMedicalGroup.Services
 
         public async Task<InformacoesMedicoPopUp> GetDetalhesMedico(string cpfMedico)
         {
-            var informacoesMedico = await 
+            var informacoesMedico = await
                 (from med in ctx.Medicos
-                join fot in ctx.FotosPerfil on med.FotoPerfilId equals fot.FotoPerfilId
-                join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
-                join usu in ctx.Usuarios on med.UsuarioId equals usu.UsuarioId
-                join dis in ctx.Disponibilidades on med.Cpf equals dis.CpfMedico into disponibilidades
-                from disLeft in disponibilidades.DefaultIfEmpty()
-                join con in ctx.Consulta on disLeft.DisponibilidadeId equals con.DisponibilidadeId into consultas
-                from conLeft in consultas.DefaultIfEmpty()
-                where med.Cpf == cpfMedico
-                group new { med, fot, emp, usu, conLeft } by new
-                {
-                    med.Cpf,
-                    med.NomeCompleto,
-                    med.Crm,
-                    med.DataNascimento,
-                    fot.FotoPerfilUrl,
-                    emp.NomeFantasia,
-                    usu.Email
-                } into grouped
-                select new InformacoesMedicoPopUp
-                {
-                    Cpf = grouped.Key.Cpf,
-                    NomeCompleto = grouped.Key.NomeCompleto,
-                    Crm = grouped.Key.Crm,
-                    DataNascimento = grouped.Key.DataNascimento,
-                    Email = grouped.Key.Email,
-                    FotoPerfilUrl = grouped.Key.FotoPerfilUrl,
-                    NomeFantasia = grouped.Key.NomeFantasia,
-                    NumeroConsultas = grouped.Where(c => c.conLeft.Situacao == "Concluída").Count(g => g.conLeft != null)
-                }).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado.");
+                 join fot in ctx.FotosPerfil on med.FotoPerfilId equals fot.FotoPerfilId into fotLeft
+                 from fot in fotLeft.DefaultIfEmpty()  // Left join para FotoPerfil
+                 join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj into empLeft
+                 from emp in empLeft.DefaultIfEmpty()  // Left join para Empresa
+                 join usu in ctx.Usuarios on med.UsuarioId equals usu.UsuarioId
+                 join dis in ctx.Disponibilidades on med.Cpf equals dis.CpfMedico into disponibilidades
+                 from disLeft in disponibilidades.DefaultIfEmpty()
+                 join con in ctx.Consulta on disLeft.DisponibilidadeId equals con.DisponibilidadeId into consultas
+                 from conLeft in consultas.DefaultIfEmpty()
+                 where med.Cpf == cpfMedico
+                 group new { med, fot, emp, usu, conLeft } by new
+                 {
+                     med.Cpf,
+                     med.NomeCompleto,
+                     med.Crm,
+                     med.DataNascimento,
+                     fot.FotoPerfilUrl,
+                     emp.NomeFantasia,
+                     usu.Email
+                 } into grouped
+                 select new InformacoesMedicoPopUp
+                 {
+                     Cpf = grouped.Key.Cpf,
+                     NomeCompleto = grouped.Key.NomeCompleto,
+                     Crm = grouped.Key.Crm,
+                     DataNascimento = grouped.Key.DataNascimento,
+                     Email = grouped.Key.Email,
+                     FotoPerfilUrl = grouped.Key.FotoPerfilUrl != null ? grouped.Key.FotoPerfilUrl : "",
+                     NomeFantasia = grouped.Key.NomeFantasia != null ? grouped.Key.NomeFantasia : "",
+                     NumeroConsultas = grouped.Where(c => c.conLeft.Situacao == "Concluída").Count(g => g.conLeft != null)
+                 }).FirstOrDefaultAsync() ?? throw new Exception("Médico não encontrado.");
+        
 
             return informacoesMedico;
         }
 
         public async Task<List<MedicoInformacoesCardDto>> GetInfoBasicasMedico(string? especialidade, string? nomeMedico, string? numCrm)
         {
+
             var query = from med in ctx.Medicos
-                        join fot in ctx.FotosPerfil on med.FotoPerfilId equals fot.FotoPerfilId
-                        join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj
+                        join fot in ctx.FotosPerfil on med.FotoPerfilId equals fot.FotoPerfilId into fotoJoin
+                        from fot in fotoJoin.DefaultIfEmpty() // Left Join
+
+                        join emp in ctx.Empresas on med.cnpj_empresa equals emp.Cnpj into empresaJoin
+                        from emp in empresaJoin.DefaultIfEmpty() // Left Join
+
                         select new MedicoInformacoesCardDto
                         {
                             Cpf = med.Cpf,
                             NomeCompleto = med.NomeCompleto,
                             Crm = med.Crm,
-                            FotoPerfilUrl = fot.FotoPerfilUrl ?? "",
-                            NomeFantasia = emp.NomeFantasia
+                            FotoPerfilUrl = fot != null ? fot.FotoPerfilUrl : "",
+                            NomeFantasia = emp != null ? emp.NomeFantasia : ""
                         };
 
             if (!string.IsNullOrEmpty(especialidade))
