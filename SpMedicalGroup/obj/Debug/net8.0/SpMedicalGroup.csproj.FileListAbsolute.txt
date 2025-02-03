@@ -359,3 +359,5 @@ C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpM
 C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpMedicalGroup\SpMedicalGroup\obj\Debug\net8.0\SpMedicalGroup.genruntimeconfig.cache
 C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpMedicalGroup\SpMedicalGroup\obj\Debug\net8.0\ref\SpMedicalGroup.dll
 C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpMedicalGroup\SpMedicalGroup\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpMedicalGroup\SpMedicalGroup\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\kened\Documents\Programação\C#\SP_MG\trabalho_banco_de_dados2\API\SpMedicalGroup\SpMedicalGroup\bin\Debug\net8.0\StackExchange.Redis.dll

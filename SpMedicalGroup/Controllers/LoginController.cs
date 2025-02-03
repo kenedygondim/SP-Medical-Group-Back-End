@@ -66,7 +66,7 @@ namespace SpMedicalGroup.Controllers
                     issuer: "SpMedicalGroup",
                     audience: "SpMedicalGroup",
                     claims: minhasClaims,
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddHours(1), //mudei aqui de 30min para 1hora
                     signingCredentials: creds
                     );
 

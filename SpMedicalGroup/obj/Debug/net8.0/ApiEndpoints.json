@@ -673,15 +673,5 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SpMedicalGroup.Controllers.UsuarioController",
-    "Method": "teste",
-    "RelativePath": "api/Usuario/MudarSenhas",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
   }
 ]
